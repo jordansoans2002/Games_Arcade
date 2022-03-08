@@ -21,16 +21,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CowBull {
-    int difficulty=4,points=0,noOfGuesses=0;
+    int difficulty=0,wordLength=4,points=0,noOfGuesses=0;
     int maxBulls=0,maxCows=0;
     String target=setWord();
     List<String> guesses=new ArrayList<>();
     //HBox guess;
 
+    /*CowBull(int wordLength,int difficulty){
+        this.wordLength=wordLength;
+        this.difficulty=difficulty;
+        target=setWord();
+    }*/
+
     String setWord(){
         String target="SNOW";
-        if(difficulty==3) target="NOW";
-        if(difficulty==4) target="SNOW";
+        if(wordLength==3) target="NOW";
+        if(wordLength==4) target="SNOW";
         return target;
     }
 
@@ -60,7 +66,7 @@ public class CowBull {
     boolean isValidWord(String guessedWord){
        /* if(!guessedWord.contains("[A-Z]"))
             return false;*/
-        if(guessedWord.length() != difficulty)
+        if(guessedWord.length() != wordLength)
             return false;
         for(int i=0;i<guessedWord.length();i++){
             char c=guessedWord.charAt(i);
@@ -78,19 +84,19 @@ public class CowBull {
     void cowBull(String guessedWord) {
         HBox guess = new HBox();
         guess.setId("letters");
-        guess.setPrefWidth(93);
+        guess.setPrefWidth(90);
         guess.setAlignment(Pos.CENTER_LEFT);
         Hyperlink test=new Hyperlink("https://www.google.com/search?q="+guessedWord+"+meaning",guess);
 
         int cows = 0, bulls = 0;
         String clr = "white";
-        for (int i = 0; i < difficulty; i++) {
+        for (int i = 0; i < wordLength; i++) {
             if (guessedWord.charAt(i) == target.charAt(i)) {
                 bulls++;
                 clr = "RED";
             } else {
                 clr = "WHITE";
-                for (int j = 0; j < difficulty; j++) {
+                for (int j = 0; j < wordLength; j++) {
                     if (guessedWord.charAt(i) == target.charAt(j)) {
                         cows++;
                         clr = "GREEN";
@@ -112,10 +118,10 @@ public class CowBull {
 
         GridPane.setConstraints(guess,0,noOfGuesses);
         allGuesses.getChildren().add(guess);
-        if(difficulty!=3) {
+        if(difficulty!=0) {
             GridPane.setConstraints(cow, 1, noOfGuesses);
             GridPane.setConstraints(bull, 2, noOfGuesses);
-            allGuesses.getChildren().addAll(cow, bull);
+            allGuesses.getChildren().addAll(cow,bull);
         }
         guess.setOnMousePressed(e->checkWord(GridPane.getRowIndex(guess)));
         calcPoints(cows,bulls);
@@ -131,7 +137,7 @@ public class CowBull {
         letter.setPrefWidth(30);
         letter.setPrefHeight(30);
         letter.setAlignment(Pos.CENTER);
-        if(difficulty!=3) clr="WHITE";
+        if(difficulty!=0) clr="WHITE";
         BackgroundFill bgfill = new BackgroundFill(Color.valueOf(clr), new CornerRadii(4), new Insets(0));
         letter.setBackground(new Background(bgfill));
         guess.getChildren().add(letter);
@@ -147,8 +153,4 @@ public class CowBull {
         }
     }
 
-    /*void gsearch(){
-        WebView browser=new WebView();
-        WebEngine browse=new WebEngine();
-    }*/
 }
