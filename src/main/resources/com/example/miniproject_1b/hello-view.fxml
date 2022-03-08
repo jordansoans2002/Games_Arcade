@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="290.0" prefWidth="388.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <StackPane prefHeight="113.0" prefWidth="302.0">
+        <ImageView fx:id="five_hand" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@5.png" />
+         </image></ImageView>
+
+        <ImageView fx:id="fist" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+              <Image url="@tilted_fist.png" />
+           </image>
+        </ImageView>
+    </StackPane>
+    <TextField fx:id="run" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#onHelloButtonClick" prefColumnCount="5" prefHeight="25.0" prefWidth="77.0" />
+    <Button onAction="#onHelloButtonClick" text="Hello!" />
+</VBox>
