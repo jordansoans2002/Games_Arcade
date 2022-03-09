@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="462.0" prefWidth="659.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.HandCricket">
+   <children>
+      <ImageView fitHeight="416.0" fitWidth="659.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@cricket-pitch.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="255.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@tilted_fist.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="295.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@tilted_fist.png" />
+      </ImageView>
+   </children>
+</AnchorPane>
