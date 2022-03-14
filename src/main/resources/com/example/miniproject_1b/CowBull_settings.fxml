@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.CowBull_settings">
+   <children>
+      <Label layoutX="138.0" layoutY="176.0" text="Word Length">
+         <font>
+            <Font name="Comic Sans MS Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="168.0" layoutY="83.0" text="Difficulty">
+         <font>
+            <Font name="Comic Sans MS Bold" size="18.0" />
+         </font></Label>
+      <HBox fx:id="difficultyBox" alignment="CENTER" layoutX="301.0" layoutY="81.0" prefHeight="40.0" spacing="5">
+          <Button fx:id="easy" onAction="#setEasy" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: RED; -fx-border-radius: 4; -fx-background-radius: 4;" />
+          <Button fx:id="medium" onAction="#setMedium" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: GREEN; -fx-border-radius: 4;" />
+          <Button fx:id="hard" onAction="#setHard" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: Grey; -fx-border-radius: 4;" />
+      </HBox>
+      <HBox fx:id="lengthBox" layoutX="261.0" layoutY="174.0" prefHeight="40.0" spacing="5">
+            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
+            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
+            <Button fx:id="letters3" onAction="#setLetters3" prefHeight="30.0" prefWidth="30.0" />
+            <Button fx:id="letters4" onAction="#setLetters4" prefHeight="30.0" prefWidth="30.0" />
+            <Button fx:id="letters5" onAction="#setLetters5" prefHeight="30.0" prefWidth="30.0" />
+      </HBox>
+      <Button fx:id="playButton" layoutX="274.0" layoutY="313.0" onAction="#changeScene" text="Play">
+         <font>
+            <Font name="Comic Sans MS Bold" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
