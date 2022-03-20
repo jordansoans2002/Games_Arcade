@@ -4,30 +4,38 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.awt.Desktop;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CowBull {
     int player;
 
     int maxBulls=0,maxCows=0,points=0,noOfGuesses=0;
     List<String> guesses=new ArrayList<>();
+    Stage window;
 
-    /*@FXML
-    AnchorPane gamePane;
-    AnchorPane main(){
-        AnchorPane anchorPane=new AnchorPane();
-        anchorPane.getChildren().add(gamePane);
-        return anchorPane;
-    }*/
+    void main() throws IOException {
+        window=new Stage();
+        FXMLLoader fxmlLoader=new FXMLLoader(CowBull_settings.class.getResource("Cow_Bull.fxml"));
+        Scene scene=new Scene(fxmlLoader.load());
+        window.setScene(scene);
+
+        scene.getStylesheets().add(Objects.requireNonNull(CowBull_test.class.getResource("CowBull.css")).toExternalForm());
+        window.setTitle("CowBull player "+player+1);
+        window.show();
+    }
 
     @FXML
     public GridPane allGuesses;
@@ -37,14 +45,15 @@ public class CowBull {
     void submit(){
         String guessedWord=enterGuesses.getText().toUpperCase();
         enterGuesses.setOnKeyPressed(e->{
-            String clr;
+            String clr="";boolean gameOver=false;
             if(e.getCode()== KeyCode.ENTER) {
                 enterGuesses.clear();
                 if(isValidWord(guessedWord)){
                     noOfGuesses++;
                     guesses.add(guessedWord);
-                    isOver(guessedWord);
                     cowBull(guessedWord);
+                    if(guessedWord.equals(CowBull_settings.target))
+                        gameOver=true;
                     clr="GREEN";
                 }
                 else
@@ -52,13 +61,10 @@ public class CowBull {
 
                 enterGuesses.setBorder(new Border(new BorderStroke(Color.valueOf(clr),BorderStrokeStyle.SOLID,new CornerRadii(4),BorderStroke.MEDIUM)));
             }
+            if(clr.equals("GREEN")) {
+                CowBull_settings.gameplay(points,gameOver);
+            }
         });
-    }
-    void isOver(String guessedWord){
-        if(guessedWord.equals(CowBull_settings.target)) {
-            enterGuesses.setEditable(false);
-            CowBull_settings.getPoints();
-        }
     }
     boolean isValidWord(String guessedWord){
        /* if(!guessedWord.contains("[A-Z]"))
@@ -139,7 +145,6 @@ public class CowBull {
         maxCows=Math.max(cows,maxCows);
         maxBulls=Math.max(bulls,maxBulls);
         points=maxBulls*3+maxCows;
-        System.out.println(points);
     }
 
 
@@ -151,5 +156,4 @@ public class CowBull {
         }catch (Exception e){
         }
     }
-
 }

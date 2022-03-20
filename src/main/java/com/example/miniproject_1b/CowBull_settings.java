@@ -84,26 +84,14 @@ public class CowBull_settings extends Application {
     }
     @FXML
     void changeScene() throws IOException {
-        Stage window=new Stage();
-        FXMLLoader fxmlLoader=new FXMLLoader(CowBull_settings.class.getResource("Cow_Bull.fxml"));
-        Scene scene=new Scene(fxmlLoader.load());
-        window.setScene(scene);
-        scene.getStylesheets().add(Objects.requireNonNull(CowBull_test.class.getResource("CowBull.css")).toExternalForm());
-
         HBox multiplayer=new HBox(20);
         ob =new CowBull[noOfPlayers];
         points=new int[noOfPlayers];
-        for(int i=0;i<noOfPlayers;i++){
+        for(int i=noOfPlayers-1;i>=0;i--){
             ob[i]=new CowBull();
             ob[i].player=i;
-            //multiplayer.getChildren().add(ob[i].main());
+            ob[i].main();
         }
-        //Scene gameScene=new Scene(multiplayer);
-        //gameScene.getStylesheets().add(Objects.requireNonNull(CowBull_test.class.getResource("CowBull.css")).toExternalForm());
-        //window.setScene(gameScene);
-
-        window.setTitle("CowBull game");
-        window.show();
     }
 
     void setWordLength(int l){
@@ -234,9 +222,27 @@ public class CowBull_settings extends Application {
 
     static void getPoints(){
         for(int i=0;i<noOfPlayers;i++) {
-            points[i] = ob[i].points;
-            //ob[i].enterGuesses.setEditable(false);
+            //ob[i].window.close();
+            System.out.println(ob[i].player+1+" has "+ob[i].points);
         }
-        System.out.println(Arrays.stream(points).sorted());
+        //System.out.println(Arrays.stream(points).sorted()+"Player");
+    }
+
+    static int chance=0,dir=1;
+    static void gameplay(int points,boolean gameOver){
+        ob[chance].points=points;
+        if(gameOver)
+            getPoints();
+        chance += dir;
+
+        if(chance==noOfPlayers){
+            dir=-1;
+            chance=noOfPlayers-1;
+        }
+        if(chance==-1){
+            dir=1;
+            chance=0;
+        }
+        ob[chance].window.toFront();
     }
 }

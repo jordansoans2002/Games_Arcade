@@ -10,6 +10,13 @@
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font></Label>
+      <HBox alignment="CENTER" layoutX="265.0" layoutY="50.0" prefHeight="40.0" prefWidth="177.0" spacing="5">
+            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
+            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
+            <Button fx:id="letters3" onAction="#setLetters3" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red;" />
+            <Button fx:id="letters4" alignment="CENTER" onAction="#setLetters4" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: red;" />
+            <Button fx:id="letters5" onAction="#setLetters5" prefHeight="30.0" prefWidth="30.0" />
+      </HBox>
       <Label layoutX="157.0" layoutY="138.0" text="Difficulty">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
@@ -19,18 +26,6 @@
           <Button fx:id="medium" onAction="#setMedium" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: GREEN; -fx-border-radius: 4;" />
           <Button fx:id="hard" alignment="CENTER" onAction="#setHard" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: Grey; -fx-border-radius: 4;" />
       </HBox>
-      <HBox alignment="CENTER" layoutX="265.0" layoutY="50.0" prefHeight="40.0" prefWidth="177.0" spacing="5">
-            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
-            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
-            <Button fx:id="letters3" onAction="#setLetters3" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red;" />
-            <Button fx:id="letters4" alignment="CENTER" onAction="#setLetters4" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: red;" />
-            <Button fx:id="letters5" onAction="#setLetters5" prefHeight="30.0" prefWidth="30.0" />
-      </HBox>
-      <Button defaultButton="true" layoutX="274.0" layoutY="313.0" onAction="#changeScene" text="Play">
-         <font>
-            <Font name="Comic Sans MS Bold" size="18.0" />
-         </font>
-      </Button>
       <Label layoutX="168.0" layoutY="217.0" text="Players">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
@@ -43,5 +38,10 @@
             <Button fx:id="players4" layoutX="180.0" layoutY="15.0" onAction="#setPlayers4" prefHeight="30.0" prefWidth="30.0" />
             <Button fx:id="players5" layoutX="180.0" layoutY="15.0" onAction="#setPlayers5" prefHeight="30.0" prefWidth="30.0" />
       </HBox>
+      <Button defaultButton="true" layoutX="274.0" layoutY="313.0" onAction="#changeScene" text="Play">
+         <font>
+            <Font name="Comic Sans MS Bold" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
