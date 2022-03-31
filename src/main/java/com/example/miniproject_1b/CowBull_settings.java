@@ -4,18 +4,21 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class CowBull_settings extends Application {
 
+    public Button letters3;
     @FXML
     void setLetters3(){
         setWordLength(3);
@@ -30,6 +33,9 @@ public class CowBull_settings extends Application {
     void setLetters5(){
         setWordLength(5);
     }
+    public Button letters6;
+    @FXML
+    void setLetters6(){ setWordLength(6); }
 
     public Button easy;
     @FXML
@@ -46,7 +52,6 @@ public class CowBull_settings extends Application {
     void setHard(){
         setDifficulty(3);
     }
-    public Button letters3;
 
     public Button players1;
     @FXML
@@ -70,7 +75,6 @@ public class CowBull_settings extends Application {
     static int noOfPlayers=1;
     static int difficulty=2;
     static int wordLength=4;
-    static int[] points;
 
     static void main(String []args){launch();}
 
@@ -82,11 +86,15 @@ public class CowBull_settings extends Application {
         stage.setTitle("Settings");
         stage.show();
     }
+
     @FXML
-    void changeScene() throws IOException {
-        HBox multiplayer=new HBox(20);
+    void startGame() throws IOException {
+        multiplayer_server.main();
+        //new version to e used with cowbull_multiplayer
+        //CowBull_controller.startGame();
+
+        //old version to be used with cowbull
         ob =new CowBull[noOfPlayers];
-        points=new int[noOfPlayers];
         for(int i=noOfPlayers-1;i>=0;i--){
             ob[i]=new CowBull();
             ob[i].player=i;
@@ -103,30 +111,48 @@ public class CowBull_settings extends Application {
             letters3.setBackground(new Background(bgRed));
             letters4.setBackground(new Background(bgWhite));
             letters5.setBackground(new Background(bgWhite));
+            letters6.setBackground(new Background(bgWhite));
 
-            letters3.setPrefSize(35,35);
-            letters4.setPrefSize(30,30);
-            letters5.setPrefSize(30,30);
+            letters3.setPrefSize(37,37);
+            letters4.setPrefSize(33,33);
+            letters5.setPrefSize(33,33);
+            letters6.setPrefSize(33,33);
         }
         else if(l==4) {
             target="SNOW";
             letters3.setBackground(new Background(bgRed));
             letters4.setBackground(new Background(bgRed));
             letters5.setBackground(new Background(bgWhite));
+            letters6.setBackground(new Background(bgWhite));
 
-            letters3.setPrefSize(30,30);
-            letters4.setPrefSize(35,35);
-            letters5.setPrefSize(30,30);
+            letters3.setPrefSize(33,33);
+            letters4.setPrefSize(37,37);
+            letters5.setPrefSize(33,33);
+            letters6.setPrefSize(33,33);
         }
         else if(l==5) {
             target="SNOWY";
             letters3.setBackground(new Background(bgRed));
             letters4.setBackground(new Background(bgRed));
             letters5.setBackground(new Background(bgRed));
+            letters6.setBackground(new Background(bgWhite));
 
-            letters3.setPrefSize(30,30);
-            letters4.setPrefSize(30,30);
-            letters5.setPrefSize(35,35);
+            letters3.setPrefSize(33,33);
+            letters4.setPrefSize(33,33);
+            letters5.setPrefSize(37,37);
+            letters6.setPrefSize(33,33);
+        }
+        else if(l==6) {
+            target="SNOWEY";
+            letters3.setBackground(new Background(bgRed));
+            letters4.setBackground(new Background(bgRed));
+            letters5.setBackground(new Background(bgRed));
+            letters6.setBackground(new Background(bgRed));
+
+            letters3.setPrefSize(33,33);
+            letters4.setPrefSize(33,33);
+            letters5.setPrefSize(33,33);
+            letters6.setPrefSize(37,37);
         }
     }
 
@@ -134,18 +160,18 @@ public class CowBull_settings extends Application {
         difficulty=d;
         if(d==1) {
             easy.setPrefSize(37,37);
-            medium.setPrefSize(30,30);
-            hard.setPrefSize(30,30);
+            medium.setPrefSize(33,33);
+            hard.setPrefSize(33,33);
         }
         else if(d==2) {
-            easy.setPrefSize(30,30);
-            medium.setPrefSize(35,35);
-            hard.setPrefSize(30,30);
+            easy.setPrefSize(33,33);
+            medium.setPrefSize(37,37);
+            hard.setPrefSize(33,33);
         }
         else if(d==3) {
-            easy.setPrefSize(30,30);
-            medium.setPrefSize(30,30);
-            hard.setPrefSize(35,35);
+            easy.setPrefSize(33,33);
+            medium.setPrefSize(33,33);
+            hard.setPrefSize(37,37);
         }
     }
 
@@ -160,11 +186,11 @@ public class CowBull_settings extends Application {
             players4.setBackground(new Background(bgWhite));
             players5.setBackground(new Background(bgWhite));
 
-            players1.setPrefSize(35,35);
-            players2.setPrefSize(30,30);
-            players3.setPrefSize(30,30);
-            players4.setPrefSize(30,30);
-            players5.setPrefSize(30,30);
+            players1.setPrefSize(37,37);
+            players2.setPrefSize(33,33);
+            players3.setPrefSize(33,33);
+            players4.setPrefSize(33,33);
+            players5.setPrefSize(33,33);
         }
         else if(n==2) {
             players1.setBackground(new Background(bgGreen));
@@ -173,11 +199,11 @@ public class CowBull_settings extends Application {
             players4.setBackground(new Background(bgWhite));
             players5.setBackground(new Background(bgWhite));
 
-            players1.setPrefSize(30,30);
-            players2.setPrefSize(35,35);
-            players3.setPrefSize(30,30);
-            players4.setPrefSize(30,30);
-            players5.setPrefSize(30,30);
+            players1.setPrefSize(33,33);
+            players2.setPrefSize(37,37);
+            players3.setPrefSize(33,33);
+            players4.setPrefSize(33,33);
+            players5.setPrefSize(33,33);
         }
         else if(n==3) {
             players1.setBackground(new Background(bgGreen));
@@ -186,11 +212,11 @@ public class CowBull_settings extends Application {
             players4.setBackground(new Background(bgWhite));
             players5.setBackground(new Background(bgWhite));
 
-            players1.setPrefSize(30,30);
-            players2.setPrefSize(30,30);
+            players1.setPrefSize(33,33);
+            players2.setPrefSize(33,33);
             players3.setPrefSize(35,35);
-            players4.setPrefSize(30,30);
-            players5.setPrefSize(30,30);
+            players4.setPrefSize(33,33);
+            players5.setPrefSize(33,33);
         }
         else if(n==4) {
             players1.setBackground(new Background(bgGreen));
@@ -199,11 +225,11 @@ public class CowBull_settings extends Application {
             players4.setBackground(new Background(bgGreen));
             players5.setBackground(new Background(bgWhite));
 
-            players1.setPrefSize(30,30);
-            players2.setPrefSize(30,30);
-            players3.setPrefSize(30,30);
-            players4.setPrefSize(35,35);
-            players5.setPrefSize(30,30);
+            players1.setPrefSize(33,33);
+            players2.setPrefSize(33,33);
+            players3.setPrefSize(33,33);
+            players4.setPrefSize(37,37);
+            players5.setPrefSize(33,33);
         }
         else if(n==5) {
             players1.setBackground(new Background(bgGreen));
@@ -212,14 +238,15 @@ public class CowBull_settings extends Application {
             players4.setBackground(new Background(bgGreen));
             players5.setBackground(new Background(bgGreen));
 
-            players1.setPrefSize(30,30);
-            players2.setPrefSize(30,30);
-            players3.setPrefSize(30,30);
-            players4.setPrefSize(30,30);
-            players5.setPrefSize(35,35);
+            players1.setPrefSize(33,33);
+            players2.setPrefSize(33,33);
+            players3.setPrefSize(33,33);
+            players4.setPrefSize(33,33);
+            players5.setPrefSize(37,37);
         }
     }
 
+    //old version to be us
     static void getPoints(){
         for(int i=0;i<noOfPlayers;i++) {
             //ob[i].window.close();
@@ -244,5 +271,13 @@ public class CowBull_settings extends Application {
             chance=0;
         }
         ob[chance].window.toFront();
+        if(chance==1){
+                try{
+                    String inMsg=multiplayer_server.received();
+                    ob[chance].getGuess(inMsg);
+                } catch (IOException e){
+                    //todo
+                }
+        }
     }
 }

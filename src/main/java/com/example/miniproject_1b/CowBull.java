@@ -2,6 +2,7 @@ package com.example.miniproject_1b;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,11 +31,18 @@ public class CowBull {
         window=new Stage();
         FXMLLoader fxmlLoader=new FXMLLoader(CowBull_settings.class.getResource("Cow_Bull.fxml"));
         Scene scene=new Scene(fxmlLoader.load());
-        window.setScene(scene);
-
         scene.getStylesheets().add(Objects.requireNonNull(CowBull_test.class.getResource("CowBull.css")).toExternalForm());
-        window.setTitle("CowBull player "+player+1);
+        window.setScene(scene);
+        window.setX(315*player);
+        //window.setY();
+        //window.centerOnScreen();
+        window.setTitle("Player "+(player+1));
         window.show();
+    }
+
+    void getGuess(String guess){
+        enterGuesses.setText(guess);
+        submit();
     }
 
     @FXML
@@ -52,6 +60,14 @@ public class CowBull {
                     noOfGuesses++;
                     guesses.add(guessedWord);
                     cowBull(guessedWord);
+                    try {
+                        multiplayer_server.send(guessedWord);
+                        System.out.println("message sent");
+                    } catch (IOException ioException){
+                        System.out.println("error");
+                        enterGuesses.setBorder(new Border(new BorderStroke(Color.RED,BorderStrokeStyle.SOLID,new CornerRadii(4),BorderStroke.MEDIUM)));
+                        ioException.printStackTrace();
+                    }
                     if(guessedWord.equals(CowBull_settings.target))
                         gameOver=true;
                     clr="GREEN";
@@ -62,6 +78,7 @@ public class CowBull {
                 enterGuesses.setBorder(new Border(new BorderStroke(Color.valueOf(clr),BorderStrokeStyle.SOLID,new CornerRadii(4),BorderStroke.MEDIUM)));
             }
             if(clr.equals("GREEN")) {
+                //enterGuesses.setEditable(false);
                 CowBull_settings.gameplay(points,gameOver);
             }
         });
@@ -87,7 +104,7 @@ public class CowBull {
     void cowBull(String guessedWord) {
         HBox guess = new HBox();
         guess.setId("letters");
-        guess.setPrefWidth(90);
+        guess.setPrefWidth(130);
         guess.setSpacing(2);
         guess.setAlignment(Pos.CENTER_LEFT);
 
@@ -117,8 +134,8 @@ public class CowBull {
     }
     void addLetter(HBox guess,String c,String clr){
         Label letter=new Label(c);
-        letter.setPrefWidth(30);
-        letter.setPrefHeight(30);
+        letter.setPrefWidth(20);
+        letter.setPrefHeight(20);
         letter.setAlignment(Pos.CENTER);
         if(CowBull_settings.difficulty ==3) clr="WHITE";
         BackgroundFill bgfill = new BackgroundFill(Color.valueOf(clr), new CornerRadii(4), new Insets(0));
@@ -133,6 +150,7 @@ public class CowBull {
         bull.setTextFill(Color.RED);
 
         GridPane.setConstraints(guess,0,noOfGuesses);
+        GridPane.setHalignment(guess, HPos.LEFT);
         allGuesses.getChildren().add(guess);
         if(CowBull_settings.difficulty !=1) {
             GridPane.setConstraints(cow, 1, noOfGuesses);
@@ -147,13 +165,13 @@ public class CowBull {
         points=maxBulls*3+maxCows;
     }
 
-
     void checkWord(int row){
         String word=guesses.get(row-1);
         System.out.println(guesses.get(row-1));
         try {
             Desktop.getDesktop().browse(new URI("https://www.google.com/search?q=" + word + "+meaning"));
         }catch (Exception e){
+            //todo
         }
     }
 }

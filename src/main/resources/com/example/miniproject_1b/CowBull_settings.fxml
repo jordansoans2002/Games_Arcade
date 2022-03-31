@@ -6,39 +6,59 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.CowBull_settings">
    <children>
-      <Label layoutX="142.0" layoutY="57.0" text="Word Length">
+      <Label layoutX="167.0" layoutY="58.0" text="Word">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font></Label>
-      <HBox alignment="CENTER" layoutX="265.0" layoutY="50.0" prefHeight="40.0" prefWidth="177.0" spacing="5">
-            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
-            <Button prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red; -fx-border-radius: 4;" />
-            <Button fx:id="letters3" onAction="#setLetters3" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: red;" />
-            <Button fx:id="letters4" alignment="CENTER" onAction="#setLetters4" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: red;" />
-            <Button fx:id="letters5" onAction="#setLetters5" prefHeight="30.0" prefWidth="30.0" />
+      <HBox alignment="CENTER" layoutX="243.0" layoutY="50.0" prefHeight="40.0" spacing="5">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="33.0" prefWidth="33.0" style="-fx-background-color: red; -fx-border-radius: 4;" text="L" HBox.hgrow="NEVER">
+            <font>
+               <Font name="Comic Sans MS Bold" size="15.0" />
+            </font></Button>
+            <Button prefHeight="33.0" prefWidth="33.0" style="-fx-background-color: red; -fx-border-radius: 4;" text="E" HBox.hgrow="NEVER">
+            <font>
+               <Font name="Comic Sans MS Bold" size="15.0" />
+            </font></Button>
+            <Button fx:id="letters3" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#setLetters3" prefHeight="33.0" prefWidth="33.0" style="-fx-background-color: red;" text="N" HBox.hgrow="NEVER">
+            <font>
+               <Font name="Comic Sans MS Bold" size="15.0" />
+            </font></Button>
+            <Button fx:id="letters4" alignment="CENTER" onAction="#setLetters4" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: red;" text="G" HBox.hgrow="NEVER">
+            <font>
+               <Font name="Comic Sans MS Bold" size="15.0" />
+            </font></Button>
+            <Button fx:id="letters5" onAction="#setLetters5" prefHeight="33.0" prefWidth="33.0" text="T" HBox.hgrow="NEVER">
+            <font>
+               <Font name="Comic Sans MS Bold" size="15.0" />
+            </font></Button>
+         <Button fx:id="letters6" layoutX="166.0" layoutY="14.0" onAction="#setLetters6" prefHeight="33.0" prefWidth="33.0" text="H">
+            <font>
+               <Font name="Comic Sans MS Bold" size="15.0" />
+            </font>
+         </Button>
       </HBox>
-      <Label layoutX="157.0" layoutY="138.0" text="Difficulty">
+      <Label layoutX="149.0" layoutY="138.0" text="Difficulty">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font></Label>
       <HBox alignment="CENTER" layoutX="300.0" layoutY="130.0" prefHeight="40.0" spacing="5">
-          <Button fx:id="easy" onAction="#setEasy" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: RED; -fx-border-radius: 4; -fx-background-radius: 4;" />
+          <Button fx:id="easy" onAction="#setEasy" prefHeight="33.0" prefWidth="33.0" style="-fx-background-color: RED; -fx-border-radius: 4; -fx-background-radius: 4;" />
           <Button fx:id="medium" onAction="#setMedium" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: GREEN; -fx-border-radius: 4;" />
-          <Button fx:id="hard" alignment="CENTER" onAction="#setHard" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: Grey; -fx-border-radius: 4;" />
+          <Button fx:id="hard" alignment="CENTER" onAction="#setHard" prefHeight="33.0" prefWidth="33.0" style="-fx-background-color: Grey; -fx-border-radius: 4;" />
       </HBox>
-      <Label layoutX="168.0" layoutY="217.0" text="Players">
+      <Label layoutX="160.0" layoutY="218.0" text="Players">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font>
       </Label>
       <HBox alignment="CENTER" layoutX="265.0" layoutY="210.0" prefHeight="40.0" prefWidth="177.0" spacing="5.0">
-          <Button fx:id="players1" mnemonicParsing="false" onAction="#setPlayers1" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: green;" />
-            <Button fx:id="players2" layoutX="180.0" layoutY="15.0" onAction="#setPlayers2" prefHeight="30.0" prefWidth="30.0" />
-            <Button fx:id="players3" layoutX="180.0" layoutY="15.0" onAction="#setPlayers3" prefHeight="30.0" prefWidth="30.0" />
-            <Button fx:id="players4" layoutX="180.0" layoutY="15.0" onAction="#setPlayers4" prefHeight="30.0" prefWidth="30.0" />
-            <Button fx:id="players5" layoutX="180.0" layoutY="15.0" onAction="#setPlayers5" prefHeight="30.0" prefWidth="30.0" />
+          <Button fx:id="players1" mnemonicParsing="false" onAction="#setPlayers1" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: green;" />
+            <Button fx:id="players2" layoutX="180.0" layoutY="15.0" onAction="#setPlayers2" prefHeight="33.0" prefWidth="33.0" />
+            <Button fx:id="players3" layoutX="180.0" layoutY="15.0" onAction="#setPlayers3" prefHeight="33.0" prefWidth="33.0" />
+            <Button fx:id="players4" layoutX="180.0" layoutY="15.0" onAction="#setPlayers4" prefHeight="33.0" prefWidth="33.0" />
+            <Button fx:id="players5" layoutX="180.0" layoutY="15.0" onAction="#setPlayers5" prefHeight="33.0" prefWidth="33.0" />
       </HBox>
-      <Button defaultButton="true" layoutX="274.0" layoutY="313.0" onAction="#changeScene" text="Play">
+      <Button fx:id="playButton" defaultButton="true" layoutX="274.0" layoutY="313.0" onAction="#startGame" text="Play">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font>
