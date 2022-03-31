@@ -90,16 +90,17 @@ public class CowBull_settings extends Application {
     @FXML
     void startGame() throws IOException {
         multiplayer_server.main();
+
         //new version to e used with cowbull_multiplayer
-        //CowBull_controller.startGame();
+        CowBull_controller.startGame();
 
         //old version to be used with cowbull
-        ob =new CowBull[noOfPlayers];
+        /*ob =new CowBull[noOfPlayers];
         for(int i=noOfPlayers-1;i>=0;i--){
             ob[i]=new CowBull();
             ob[i].player=i;
             ob[i].main();
-        }
+        }*/
     }
 
     void setWordLength(int l){
@@ -274,8 +275,10 @@ public class CowBull_settings extends Application {
         if(chance==1){
                 try{
                     String inMsg=multiplayer_server.received();
-                    ob[chance].getGuess(inMsg);
+                    ob[chance].enterGuesses.setText(inMsg);
+                    ob[chance].submit();
                 } catch (IOException e){
+                    e.printStackTrace();
                     //todo
                 }
         }

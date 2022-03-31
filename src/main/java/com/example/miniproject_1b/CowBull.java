@@ -41,34 +41,35 @@ public class CowBull {
     }
 
     void getGuess(String guess){
-        enterGuesses.setText(guess);
-        submit();
+        guessWord=guess;
+        takeWord();
     }
 
     @FXML
     public GridPane allGuesses;
     @FXML
     public TextField enterGuesses;
+    String guessWord;
     @FXML
     void submit(){
-        String guessedWord=enterGuesses.getText().toUpperCase();
+        guessWord=enterGuesses.getText().toUpperCase();
         enterGuesses.setOnKeyPressed(e->{
             String clr="";boolean gameOver=false;
             if(e.getCode()== KeyCode.ENTER) {
                 enterGuesses.clear();
-                if(isValidWord(guessedWord)){
+                if(isValidWord(guessWord)){
                     noOfGuesses++;
-                    guesses.add(guessedWord);
-                    cowBull(guessedWord);
-                    try {
+                    guesses.add(guessWord);
+                    cowBull(guessWord);
+                    /*try {
                         multiplayer_server.send(guessedWord);
                         System.out.println("message sent");
                     } catch (IOException ioException){
                         System.out.println("error");
                         enterGuesses.setBorder(new Border(new BorderStroke(Color.RED,BorderStrokeStyle.SOLID,new CornerRadii(4),BorderStroke.MEDIUM)));
                         ioException.printStackTrace();
-                    }
-                    if(guessedWord.equals(CowBull_settings.target))
+                    }*/
+                    if(guessWord.equals(CowBull_settings.target))
                         gameOver=true;
                     clr="GREEN";
                 }
@@ -82,6 +83,15 @@ public class CowBull {
                 CowBull_settings.gameplay(points,gameOver);
             }
         });
+    }
+    void takeWord(){
+        if(isValidWord(guessWord)) {
+            noOfGuesses++;
+            guesses.add(guessWord);
+            cowBull(guessWord);
+        }
+        CowBull_settings.gameplay(points,guessWord.equals(CowBull_settings.target));
+
     }
     boolean isValidWord(String guessedWord){
        /* if(!guessedWord.contains("[A-Z]"))

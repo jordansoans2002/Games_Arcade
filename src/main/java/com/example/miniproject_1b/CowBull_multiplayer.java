@@ -32,9 +32,21 @@ public class CowBull_multiplayer extends CowBull_controller{
     List<String> guesses=new ArrayList<>();
 
     ScrollPane playerLayout(){
-        FXMLLoader fxmlLoader=new FXMLLoader(CowBull_multiplayer.class.getResource("CowBull_multiplayer.fxml"));
-        fxmlLoader.setController(ob);
-        return gameScroller;
+       ScrollPane game=new ScrollPane();
+        game.setPrefHeight(300);
+        game.setPrefWidth(250);
+        game.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        game.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        game.setFitToWidth(true);
+
+        allGuesses=new GridPane();
+        allGuesses.setAlignment(Pos.CENTER);
+        allGuesses.setVgap(7);
+        allGuesses.setHgap(40);
+        allGuesses.setPadding(new Insets(3,0,0,0));
+
+        return game;
+
     }
 
     void cowBull(String guessedWord) {

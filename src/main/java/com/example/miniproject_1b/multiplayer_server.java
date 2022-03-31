@@ -18,7 +18,7 @@ public class multiplayer_server {
             } catch (EOFException e) {
                 System.out.println("exited");
             } finally {
-                closeChat();
+                //closeChat();
             }
         } catch (IOException e){
             //TODO
@@ -36,7 +36,7 @@ public class multiplayer_server {
         output.flush();
         input=new ObjectInputStream(connection.getInputStream());
         System.out.println("stream setup");
-        output.writeObject("ready");
+        //output.writeObject("ready");
     }
 
     static void send(String guessedWord) throws IOException {
@@ -48,6 +48,7 @@ public class multiplayer_server {
         try{
             inMsg= input.readObject().toString();
         } catch (ClassNotFoundException e){
+            System.out.println(inMsg);
             //TODO
         }
         return inMsg;
