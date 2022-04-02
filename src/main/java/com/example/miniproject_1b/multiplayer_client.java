@@ -5,47 +5,77 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class multiplayer_client {
 
-    Socket connection;
-    ObjectOutputStream output;
-    ObjectInputStream input;
+    static String msgs;
+    static Socket connection;
+    static ObjectOutputStream output;
+    static ObjectInputStream input;
 
-    void main(){
+    static void main(){
         try {
             try {
                 makeConnection();
                 setupStreams();
+                msgs="ready to start";
+                System.out.println(msgs);
+                while(!msgs.equals("END")){
+                    recieve();
+                    //send();
+                    //recieve();
+                }
             } catch (EOFException e) {
-                //todo
+                e.printStackTrace();
+                System.out.println("Connection closed");
             } finally {
                 closeChat();
             }
-        } catch (IOException e){
-            //TODO
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 
-    void makeConnection() throws IOException{
+    static void makeConnection()throws IOException{
         connection=new Socket("127.0.0.1",5555);
     }
-    void setupStreams() throws IOException{
-        output =new ObjectOutputStream(connection.getOutputStream());
+
+    static void setupStreams() throws IOException{
+        output=new ObjectOutputStream(connection.getOutputStream());
         output.flush();
+
         input=new ObjectInputStream(connection.getInputStream());
     }
 
-    void closeChat(){
-        try{
-            if(input!=null)
+    static void send()throws IOException{
+        System.out.print("guess to send: ");
+        Scanner sc=new Scanner(System.in);
+        msgs=sc.nextLine();
+        output.writeObject(msgs);
+
+    }
+    static void recieve()throws IOException {
+        try {
+            msgs=input.readObject().toString();
+            if(msgs.equals("1"))
+                send();
+            System.out.println(msgs);
+        } catch (ClassNotFoundException e){
+            //todo
+        }
+    }
+
+    static void closeChat(){
+        try {
+            if (input != null)
                 input.close();
-            if(output!=null)
+            if (output != null)
                 output.close();
-            if(connection!=null)
+            if (connection != null)
                 connection.close();
-        } catch (IOException e){
-            //TODO
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 }
