@@ -31,8 +31,8 @@ public class CowBull_multiplayer extends CowBull_controller{
     int noOfGuesses=0,points=0,maxCows=0,maxBulls=0;
     List<String> guesses=new ArrayList<>();
 
-    ScrollPane playerLayout(){
-       ScrollPane game=new ScrollPane();
+    void playerLayout(){
+        ScrollPane game=new ScrollPane();
         game.setPrefHeight(300);
         game.setPrefWidth(250);
         game.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -45,7 +45,7 @@ public class CowBull_multiplayer extends CowBull_controller{
         allGuesses.setHgap(40);
         allGuesses.setPadding(new Insets(3,0,0,0));
 
-        return game;
+        CowBull_controller.multiplayer.getChildren().add(game);
 
     }
 

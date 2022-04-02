@@ -23,5 +23,5 @@
         </ImageView>
     </StackPane>
     <TextField fx:id="run" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#onHelloButtonClick" prefColumnCount="5" prefHeight="25.0" prefWidth="77.0" />
-    <Button onAction="#onHelloButtonClick" text="Hello!" />
+    <Button fx:id="button" onAction="#onHelloButtonClick" text="Hello!" />
 </VBox>

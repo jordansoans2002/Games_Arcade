@@ -89,7 +89,8 @@ public class CowBull_settings extends Application {
 
     @FXML
     void startGame() throws IOException {
-        multiplayer_server.main();
+        if(noOfPlayers>1)
+            multiplayer_server.main();
 
         //new version to e used with cowbull_multiplayer
         CowBull_controller.startGame();
