@@ -69,8 +69,6 @@ public class CowBull_settings extends Application {
     @FXML
     void setPlayers5(){setNoOfPlayers(5);}
 
-
-    static CowBull[] ob;
     static String target="SNOW";
     static int noOfPlayers=1;
     static int difficulty=2;
@@ -88,20 +86,9 @@ public class CowBull_settings extends Application {
     }
 
     @FXML
-    void startGame() throws IOException {
-        if(noOfPlayers>1)
-            multiplayer_server.main();
-
-        //new version to e used with cowbull_multiplayer
+    void startGame() {
         CowBull_controller.startGame();
-
-        //old version to be used with cowbull
-        /*ob =new CowBull[noOfPlayers];
-        for(int i=noOfPlayers-1;i>=0;i--){
-            ob[i]=new CowBull();
-            ob[i].player=i;
-            ob[i].main();
-        }*/
+        //clientController.startGame();
     }
 
     void setWordLength(int l){
@@ -245,43 +232,6 @@ public class CowBull_settings extends Application {
             players3.setPrefSize(33,33);
             players4.setPrefSize(33,33);
             players5.setPrefSize(37,37);
-        }
-    }
-
-    //old version to be us
-    static void getPoints(){
-        for(int i=0;i<noOfPlayers;i++) {
-            //ob[i].window.close();
-            System.out.println(ob[i].player+1+" has "+ob[i].points);
-        }
-        //System.out.println(Arrays.stream(points).sorted()+"Player");
-    }
-
-    static int chance=0,dir=1;
-    static void gameplay(int points,boolean gameOver){
-        ob[chance].points=points;
-        if(gameOver)
-            getPoints();
-        chance += dir;
-
-        if(chance==noOfPlayers){
-            dir=-1;
-            chance=noOfPlayers-1;
-        }
-        if(chance==-1){
-            dir=1;
-            chance=0;
-        }
-        ob[chance].window.toFront();
-        if(chance==1){
-                try{
-                    String inMsg=multiplayer_server.received();
-                    ob[chance].enterGuesses.setText(inMsg);
-                    ob[chance].submit();
-                } catch (IOException e){
-                    e.printStackTrace();
-                    //todo
-                }
         }
     }
 }

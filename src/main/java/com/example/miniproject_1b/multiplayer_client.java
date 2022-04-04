@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class multiplayer_client {
 
-    static String msgs;
     static Socket connection;
     static ObjectOutputStream output;
     static ObjectInputStream input;
@@ -19,13 +17,7 @@ public class multiplayer_client {
             try {
                 makeConnection();
                 setupStreams();
-                msgs="ready to start";
-                System.out.println(msgs);
-                while(!msgs.equals("END")){
-                    recieve();
-                    //send();
-                    //recieve();
-                }
+                receive();
             } catch (EOFException e) {
                 e.printStackTrace();
                 System.out.println("Connection closed");
@@ -39,6 +31,7 @@ public class multiplayer_client {
 
     static void makeConnection()throws IOException{
         connection=new Socket("127.0.0.1",5555);
+        System.out.println("connection made");
     }
 
     static void setupStreams() throws IOException{
@@ -46,24 +39,35 @@ public class multiplayer_client {
         output.flush();
 
         input=new ObjectInputStream(connection.getInputStream());
+        System.out.println("streams setup");
+        /*try {
+            System.out.println(input.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
     }
 
-    static void send()throws IOException{
-        System.out.print("guess to send: ");
-        Scanner sc=new Scanner(System.in);
-        msgs=sc.nextLine();
-        output.writeObject(msgs);
-
-    }
-    static void recieve()throws IOException {
+    static void receive() {
+        String inMsg="*";
         try {
-            msgs=input.readObject().toString();
-            if(msgs.equals("1"))
-                send();
-            System.out.println(msgs);
-        } catch (ClassNotFoundException e){
+            inMsg=input.readObject().toString();
+            if(inMsg.equals("1")) {
+                CowBull_multiplayer.enterGuesses.setEditable(true);
+                return;
+            }
+            System.out.println(inMsg);
+        } catch (ClassNotFoundException | IOException e){
             //todo
         }
+    }
+    static void send(String guessWord){
+        try {
+            output.writeObject(guessWord);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        receive();
+
     }
 
     static void closeChat(){

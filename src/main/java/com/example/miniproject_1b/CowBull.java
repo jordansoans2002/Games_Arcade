@@ -61,14 +61,6 @@ public class CowBull {
                     noOfGuesses++;
                     guesses.add(guessWord);
                     cowBull(guessWord);
-                    /*try {
-                        multiplayer_server.send(guessedWord);
-                        System.out.println("message sent");
-                    } catch (IOException ioException){
-                        System.out.println("error");
-                        enterGuesses.setBorder(new Border(new BorderStroke(Color.RED,BorderStrokeStyle.SOLID,new CornerRadii(4),BorderStroke.MEDIUM)));
-                        ioException.printStackTrace();
-                    }*/
                     if(guessWord.equals(CowBull_settings.target))
                         gameOver=true;
                     clr="GREEN";
@@ -80,7 +72,7 @@ public class CowBull {
             }
             if(clr.equals("GREEN")) {
                 //enterGuesses.setEditable(false);
-                CowBull_settings.gameplay(points,gameOver);
+                //CowBull_settings.gameplay(points,gameOver);
             }
         });
     }
@@ -90,8 +82,7 @@ public class CowBull {
             guesses.add(guessWord);
             cowBull(guessWord);
         }
-        CowBull_settings.gameplay(points,guessWord.equals(CowBull_settings.target));
-
+        //CowBull_settings.gameplay(points,guessWord.equals(CowBull_settings.target));
     }
     boolean isValidWord(String guessedWord){
        /* if(!guessedWord.contains("[A-Z]"))

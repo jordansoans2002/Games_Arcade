@@ -13,22 +13,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class CowBull_controller {
-    boolean isServer=true;
-    static int PlayerNo=0;
-
+public class clientController {
+    static int playerNo=1;
+    boolean isServer=false;
     static Scene gameScene;
-    static CowBull_multiplayer[] ob;
+    static clientPlayer[] ob;
     static TextField enterGuesses;
     static HBox multiplayer;
 
     static void startGame() {
-        CowBull_controller.gameLayout();
+        clientController.gameLayout();
         gameScene.getStylesheets().add(Objects.requireNonNull(CowBull_settings.class.getResource("CowBull.css")).toExternalForm());
         Stage window=new Stage();
         window.setScene(gameScene);
         window.show();
-        window.setOnCloseRequest(e->multiplayer_server.closeChat());
     }
     static void gameLayout(){
         VBox layout=new VBox();
@@ -42,7 +40,7 @@ public class CowBull_controller {
         group.setAlignment(Pos.CENTER);
 
         enterGuesses=new TextField();
-        enterGuesses.setOnKeyTyped(e->{submit();});
+        enterGuesses.setOnKeyTyped(e->submit());
         enterGuesses.setPrefColumnCount(6);
         enterGuesses.setPromptText("guess");
 
@@ -54,15 +52,17 @@ public class CowBull_controller {
 
         multiplayer=new HBox(20);
         multiplayer.setAlignment(Pos.CENTER);
-        ob=new CowBull_multiplayer[CowBull_settings.noOfPlayers];
+        ob=new clientPlayer[CowBull_settings.noOfPlayers];
         for(int i=0;i<CowBull_settings.noOfPlayers;i++) {
-            ob[i] = new CowBull_multiplayer();
+            ob[i] = new clientPlayer();
             ob[i].player = i;
             ob[i].playerLayout();
         }
 
         layout.getChildren().addAll(group,multiplayer);
         gameScene=new Scene(layout);
+
+        multiplayer_client.main();
     }
 
 
@@ -71,7 +71,7 @@ public class CowBull_controller {
 
         enterGuesses.setOnKeyPressed(e->{
             String clr="RED";
-            if(e.getCode()==KeyCode.ENTER) {
+            if(e.getCode()== KeyCode.ENTER) {
                 enterGuesses.clear();
                 if (isValidWord(guessedWord)) {
                     //gameplay(guessedWord);
@@ -82,6 +82,7 @@ public class CowBull_controller {
             }
             if(clr.equals("GREEN")) {
                 gameplay(guessedWord);
+                multiplayer_client.send(guessedWord);
             }
         });
     }
@@ -117,28 +118,8 @@ public class CowBull_controller {
             getPoints();
             enterGuesses.setEditable(false);
         }
-
-        try{
-            if(chance == 0 && CowBull_settings.noOfPlayers>1){
-                multiplayer_server.send(guessedWord);
-                System.out.println("done sending");
-                //enterGuesses.clear();
-            }
-            chance += dir;
-            nextTurn();
-            if(chance!=0) {
-                //enterGuesses.setEditable(false);
-                System.out.println("waiting for msg");
-                multiplayer_server.send(chance+"");
-                String inMsg = multiplayer_server.receive().toUpperCase();
-                gameplay(inMsg);
-            }
-
-        } catch (IOException e){
-            //todo
-        }
-        /*chance += dir;
-        nextTurn();*/
+        chance += dir;
+        nextTurn();
         enterGuesses.setPromptText("player "+(chance+1));
     }
     static void nextTurn(){
@@ -151,4 +132,5 @@ public class CowBull_controller {
             chance=0;
         }
     }
+
 }

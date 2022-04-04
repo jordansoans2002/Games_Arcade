@@ -1,8 +1,7 @@
 module com.example.miniproject_1b {
     requires javafx.controls;
     requires javafx.fxml;
-    requires org.controlsfx.controls;
-    //requires jakarta.activation;
+    //requires org.controlsfx.controls;
     requires java.desktop;
     requires javafx.media;
 

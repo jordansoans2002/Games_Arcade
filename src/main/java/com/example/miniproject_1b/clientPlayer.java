@@ -1,26 +1,19 @@
 package com.example.miniproject_1b;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.awt.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-
-public class CowBull_multiplayer extends CowBull_controller{
+public class clientPlayer {
     int player;
 
     @FXML
@@ -48,10 +41,7 @@ public class CowBull_multiplayer extends CowBull_controller{
         allGuesses.setPadding(new Insets(3,0,0,0));
 
         gameScroller.setContent(allGuesses);
-        CowBull_controller.multiplayer.getChildren().add(gameScroller);
-
-        if(CowBull_settings.noOfPlayers>1)
-            multiplayer_server.main();
+        clientController.multiplayer.getChildren().add(gameScroller);
     }
 
     void cowBull(String guessedWord) {
@@ -131,4 +121,5 @@ public class CowBull_multiplayer extends CowBull_controller{
             //todo
         }
     }
+
 }
