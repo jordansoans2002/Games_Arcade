@@ -1,5 +1,6 @@
 package com.example.miniproject_1b;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,13 +10,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.Objects;
 
 public class CowBull_controller {
-    boolean isServer=true;
-    static int PlayerNo=0;
+    static int playerNo=1;
 
     static Scene gameScene;
     static CowBull_multiplayer[] ob;
@@ -28,7 +26,20 @@ public class CowBull_controller {
         Stage window=new Stage();
         window.setScene(gameScene);
         window.show();
-        window.setOnCloseRequest(e->multiplayer_server.closeChat());
+        window.setOnCloseRequest(e->{
+            if(playerNo == 0)
+                multithread_server.closeChat();
+            else
+                multithread_client.closeChat();
+        });
+
+        if(CowBull_settings.noOfPlayers>1) {
+            //multiplayer_server.main();
+            if(playerNo == 0)
+                new multithread_server().start();
+            else
+                new multithread_client().start();
+        }
     }
     static void gameLayout(){
         VBox layout=new VBox();
@@ -42,7 +53,8 @@ public class CowBull_controller {
         group.setAlignment(Pos.CENTER);
 
         enterGuesses=new TextField();
-        enterGuesses.setOnKeyTyped(e->{submit();});
+        enterGuesses.setEditable(playerNo == 0);
+        enterGuesses.setOnKeyTyped(e->submit());
         enterGuesses.setPrefColumnCount(6);
         enterGuesses.setPromptText("guess");
 
@@ -74,7 +86,6 @@ public class CowBull_controller {
             if(e.getCode()==KeyCode.ENTER) {
                 enterGuesses.clear();
                 if (isValidWord(guessedWord)) {
-                    //gameplay(guessedWord);
                     clr = "GREEN";
                 } else
                     clr = "RED";
@@ -112,31 +123,32 @@ public class CowBull_controller {
 
     static int chance=0,dir=1;
     static void gameplay(String guessedWord){
+        guessedWord=guessedWord.toUpperCase();
         ob[chance].cowBull(guessedWord);
         if(guessedWord.equals(CowBull_settings.target)) {
             getPoints();
             enterGuesses.setEditable(false);
         }
 
-        try{
-            if(chance == 0 && CowBull_settings.noOfPlayers>1){
-                multiplayer_server.send(guessedWord);
-                System.out.println("done sending");
-                //enterGuesses.clear();
-            }
-            chance += dir;
-            nextTurn();
-            if(chance!=0) {
-                //enterGuesses.setEditable(false);
-                System.out.println("waiting for msg");
-                multiplayer_server.send(chance+"");
-                String inMsg = multiplayer_server.receive().toUpperCase();
-                gameplay(inMsg);
-            }
 
-        } catch (IOException e){
-            //todo
+        if(chance == playerNo && CowBull_settings.noOfPlayers>1){
+            //multiplayer_server.send(guessedWord);
+
+            if(playerNo == 0)
+                multithread_server.send(guessedWord);
+            else
+                multithread_client.send(guessedWord);
         }
+        chance += dir;
+        nextTurn();
+        if(chance !=0 && playerNo == 0) {
+            /*multiplayer_server.send(chance+"");
+               String inMsg = multiplayer_server.receive().toUpperCase();
+               gameplay(inMsg);*/
+
+            multithread_server.send(String.valueOf(chance));
+        }
+
         /*chance += dir;
         nextTurn();*/
         enterGuesses.setPromptText("player "+(chance+1));
@@ -150,5 +162,17 @@ public class CowBull_controller {
             dir=1;
             chance=0;
         }
+        if(playerNo != 0) //server can enter guess for any player
+            enterGuesses.setEditable(chance == playerNo);
+    }
+    static void getGuess(String guess){
+        Platform.runLater(() -> {
+            if(guess.length()<3) {
+                int toPlay=Integer.parseInt(guess);
+                if(toPlay==playerNo)
+                    enterGuesses.setEditable(true);
+            }
+            gameplay(guess);
+        });
     }
 }

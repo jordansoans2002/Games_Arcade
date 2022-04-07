@@ -49,9 +49,6 @@ public class CowBull_multiplayer extends CowBull_controller{
 
         gameScroller.setContent(allGuesses);
         CowBull_controller.multiplayer.getChildren().add(gameScroller);
-
-        if(CowBull_settings.noOfPlayers>1)
-            multiplayer_server.main();
     }
 
     void cowBull(String guessedWord) {

@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class multiplayer_server {
+public class multiplayer_server extends Thread {
     static ServerSocket server;
     static Socket connection;
     static ObjectOutputStream output;
