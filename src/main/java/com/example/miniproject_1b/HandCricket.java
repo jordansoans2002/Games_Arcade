@@ -1,84 +1,35 @@
 package com.example.miniproject_1b;
 
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+import java.util.Scanner;
 
 public class HandCricket {
-
-    int target=0,innings=0;
-    int totalRuns=0,runsInOver=0,ballsInOver=1,overs=0;
-    int run,ball;
-    boolean batting=false,toTen=true;
-    char key;
-    @FXML
-    AnchorPane anchor;
-    @FXML
-    HBox runsInOverBox;
-    @FXML
-    HBox ballsInOverBox;
-
-    void main(){
-        anchor.setOnKeyTyped(e -> {
-            key=e.getText().charAt(0);
-            if(isValidKey()){
-                run=getRun();
-                ball=getBall();
-                if(run==ball)
-                    batsmanOut();
-
-                runsInOver+=run;
-                totalRuns+=run;
-                if(innings==2 && totalRuns>target)
-                    targetAchieved();
-
-                ballsInOver++;
-                if(ballsInOver==6){
-                    runsInOver=0;
-                    ballsInOver=1;
-                    overs++;
-                }
+    static int totalRuns=0,ballsBowled=0;
+    public static void main(String[] args) {
+        System.out.println("LETS START THE GAME");
+        System.out.println("HAND CRICKET");
+        Scanner sc=new Scanner(System.in);
+        while(true) {
+            System.out.println("ENTER RUNS");
+            int runs = sc.nextInt();
+            if(runs<0 || runs>6)
+            {
+                System.out.println("INVALID INPUT");
+                continue;
             }
-        });
-    }
-    boolean isValidKey(){
-        if(toTen&&Character.isDigit(key))
-            return true;
-        if(!toTen&&Character.isLetter(key))
-            return true;
-        return false;
-
-    }
-
-    int getBall(){
-        if(batting)
-           return (int)(Math.random()*10);
-        else
-            return Integer.parseInt(String.valueOf(key));
-    }
-    int getRun(){
-        if(!batting)
-            return (int)(Math.random()*10);
-        else
-            return Integer.parseInt(String.valueOf(key));
-    }
-
-    void batsmanOut(){
-        if(innings==1) {
-            target = totalRuns;
-            System.out.println("target = " + totalRuns);
+            int ball = (int) (Math.random() * 7);
+            System.out.println(ball);
+            if (runs == ball) {
+                System.out.println("OUT");
+                break;
+            }
+            totalRuns = totalRuns + runs;
+            ballsBowled++;
+            if(ballsBowled%6==0)
+                System.out.println("OVERS COMPLETED "+ballsBowled/6 );
+            System.out.println("TOTAL RUNS =" + totalRuns);
+            System.out.println("TOTAL BALLS =" + ballsBowled);
         }
-        else if(innings==2 && totalRuns==target)
-            System.out.println("draw");
-        else
-            System.out.println("lost");
-    }
-    void targetAchieved(){
-        System.out.println("You won");
-    }
 
+    }
 
 }
