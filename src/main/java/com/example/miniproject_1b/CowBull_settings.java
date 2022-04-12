@@ -83,6 +83,8 @@ public class CowBull_settings extends Application {
     void startGame() {
         CowBull_controller.startGame();
         //clientController.startGame();
+        
+        target=CowBull_dictionary.getWord(wordLength);
     }
 
     void setWordLength(int l){
@@ -90,7 +92,7 @@ public class CowBull_settings extends Application {
         BackgroundFill bgRed = new BackgroundFill(Color.valueOf("RED"), new CornerRadii(4), new Insets(0));
         BackgroundFill bgWhite = new BackgroundFill(Color.valueOf("WHITE"), new CornerRadii(4), new Insets(0));
         if(l==3) {
-            target="NOW";
+            //target="NOW";
             letters3.setBackground(new Background(bgRed));
             letters4.setBackground(new Background(bgWhite));
             letters5.setBackground(new Background(bgWhite));
@@ -102,7 +104,7 @@ public class CowBull_settings extends Application {
             letters6.setPrefSize(33,33);
         }
         else if(l==4) {
-            target="SNOW";
+            //target="SNOW";
             letters3.setBackground(new Background(bgRed));
             letters4.setBackground(new Background(bgRed));
             letters5.setBackground(new Background(bgWhite));
@@ -114,7 +116,7 @@ public class CowBull_settings extends Application {
             letters6.setPrefSize(33,33);
         }
         else if(l==5) {
-            target="SNOWY";
+            //target="SNOWY";
             letters3.setBackground(new Background(bgRed));
             letters4.setBackground(new Background(bgRed));
             letters5.setBackground(new Background(bgRed));
@@ -126,7 +128,7 @@ public class CowBull_settings extends Application {
             letters6.setPrefSize(33,33);
         }
         else if(l==6) {
-            target="SNOWEY";
+            //target="SNOWEY";
             letters3.setBackground(new Background(bgRed));
             letters4.setBackground(new Background(bgRed));
             letters5.setBackground(new Background(bgRed));
