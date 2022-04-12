@@ -5,11 +5,14 @@ import java.util.Scanner;
 public class HandCricket {
     static int totalRuns=0,ballsBowled=0,innings=1,target;
     public static void main(String[] args) {
+        //handCricket_server.main();
         handCricket_client.main();
         System.out.println("LETS START THE GAME");
         System.out.println("HAND CRICKET");
+        //int toss=(int)(Math.random()*2);
+        handCricket_server.send(toss)
         int toss=handCricket_client.receive();
-        if(toss==1)
+        if(toss==1) //if(toss == 0)
             batting();
         else
             bowling();
