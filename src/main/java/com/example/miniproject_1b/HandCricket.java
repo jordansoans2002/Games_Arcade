@@ -10,7 +10,7 @@ public class HandCricket {
         System.out.println("LETS START THE GAME");
         System.out.println("HAND CRICKET");
         //int toss=(int)(Math.random()*2);
-        handCricket_server.send(toss)
+        //handCricket_server.send(toss);
         int toss=handCricket_client.receive();
         if(toss==1) //if(toss == 0)
             batting();

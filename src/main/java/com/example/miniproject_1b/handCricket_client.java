@@ -3,40 +3,37 @@ package com.example.miniproject_1b;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-public class handCricket_server{
+public class handCricket_client {
 
-    static ServerSocket server;
     static Socket connection;
     static DataOutputStream output;
     static DataInputStream input;
+
     public static void main(){
         try {
-            server=new ServerSocket(5555);
-            connection=new Socket();
-            connection=server.accept();
-            input =new DataInputStream(connection.getInputStream());
-            output=new DataOutputStream(connection.getOutputStream());
+            connection = new Socket("8.1.6.33", 5555);
+            output = new DataOutputStream(connection.getOutputStream());
+            input = new DataInputStream(connection.getInputStream());
             System.out.println("connection setup");
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static int receive(){
-        int b=0;
+        int r=0;
         try {
-            b=input.readInt();
+            r=input.readInt();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return b;
+        return r;
     }
-    public static void send(int runs){
+    public static void send(int ball){
         try {
-            output.writeInt(runs);
+            output.writeInt(ball);
         } catch (IOException e) {
             e.printStackTrace();
         }
