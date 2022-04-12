@@ -18,6 +18,9 @@ public class multithread_client extends Thread{
             output.flush();
             input=new DataInputStream(connection.getInputStream());
             CowBull_controller.playerNo=input.readInt();
+            CowBull_settings.target=input.readUTF();
+            CowBull_settings.wordLength=CowBull_settings.target.length();
+            CowBull_settings.difficulty=input.readInt();
 
             while (connection.isConnected()){
                 while(input.available() == 0){

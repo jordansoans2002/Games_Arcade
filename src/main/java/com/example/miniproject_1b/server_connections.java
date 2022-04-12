@@ -23,6 +23,8 @@ public class server_connections extends Thread{
             output.flush();
             input = new DataInputStream(connection.getInputStream());
             output.writeInt(playerNo);
+            output.writeUTF(CowBull_settings.target);
+            output.writeInt(CowBull_settings.difficulty);
 
             while(connection.isConnected()) {
                 while (input.available() == 0) {
