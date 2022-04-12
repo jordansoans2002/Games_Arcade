@@ -67,15 +67,15 @@ public class CowBull_multiplayer extends CowBull_controller{
             if (guessedWord.charAt(i) == CowBull_settings.target.charAt(i)) {
                 bulls++;
                 if(CowBull_settings.difficulty==2)
-                    clr="GREEN";
+                    clr="ORANGE";
                 if(CowBull_settings.difficulty==1)
-                    clr = "RED";
+                    clr = "GREEN";
             } else {
                 clr = "WHITE";
                 for (int j = 0; j < CowBull_settings.wordLength; j++) {
                     if (guessedWord.charAt(i) == CowBull_settings.target.charAt(j)) {
                         cows++;
-                        clr = "GREEN";
+                        clr = "ORANGE";
                         break;
                     }
                 }
@@ -99,9 +99,9 @@ public class CowBull_multiplayer extends CowBull_controller{
     void addGuess(HBox guess,int cows,int bulls)
     {
         Label cow=new Label(cows+"");
-        cow.setTextFill(Color.GREEN);
+        cow.setTextFill(Color.ORANGE);
         Label bull=new Label(bulls+"");
-        bull.setTextFill(Color.RED);
+        bull.setTextFill(Color.GREEN);
 
         GridPane.setConstraints(guess,0,noOfGuesses);
         allGuesses.getChildren().add(guess);
