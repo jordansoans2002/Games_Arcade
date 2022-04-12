@@ -59,9 +59,9 @@ public class CowBull_controller {
         enterGuesses.setPromptText("guess");
 
         Label cows=new Label("cows");
-        cows.setTextFill(Color.GREEN);
+        cows.setTextFill(Color.ORANGE);
         Label bulls=new Label("bulls");
-        bulls.setTextFill(Color.RED);
+        bulls.setTextFill(Color.GREEN);
         group.getChildren().addAll(enterGuesses,cows,bulls);
 
         multiplayer=new HBox(20);
