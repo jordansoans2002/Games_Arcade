@@ -13,7 +13,7 @@ public class HandCricket_test extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader=new FXMLLoader(HandCricket_test.class.getResource("HandCricket.fxml"));
+        FXMLLoader fxmlLoader=new FXMLLoader(HandCricket_test.class.getResource("HandCricket_bowlingScene.fxml"));
         Scene scene=new Scene(fxmlLoader.load());
         stage.setTitle("Hand cricket test");
         //scene.getStylesheets().add(Objects.requireNonNull(HandCricket_test.class.getResource("HandCricket.css")).toExternalForm());

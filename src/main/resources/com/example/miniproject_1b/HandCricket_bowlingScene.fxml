@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="462.0" prefWidth="659.0" style="-fx-background-image: url(cricket-pitch.png);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.HandCricket_controller">
+    <children>
+        <ImageView fitHeight="416.0" fitWidth="659.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Image url="@cricket-pitch.png" />
+        </ImageView>
+        <ImageView fx:id="backHand" fitHeight="46.0" fitWidth="55.0" layoutX="309.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
+            <Image fx:id="fist" url="@fist.png" />
+        </ImageView>
+        <ImageView fx:id="foreHand" fitHeight="70.0" fitWidth="70.0" layoutX="349.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@fist.png" />
+        </ImageView>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <image>
+                <Image fx:id="six" url="@six.png" />
+            </image>
+            <image>
+                <Image fx:id="five" url="@five.png" />
+            </image>
+            <image>
+                <Image fx:id="four" url="@four.png" />
+            </image>
+            <image>
+                <Image fx:id="three" url="@three.png" />
+            </image>
+            <image>
+                <Image fx:id="two" url="@two.png" />
+            </image>
+            <image>
+                <Image fx:id="one" url="@one.png" />
+            </image>
+            <image>
+                <Image fx:id="zero" url="@zero.png" />
+            </image>
+        </ImageView>
+
+        <ImageView fx:id="umpire" fitHeight="105.0" fitWidth="74.0" layoutX="274.0" layoutY="244.0" onMouseClicked="#setAnimation" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image fx:id="play" url="@umpire_ready.png" />
+                <Image fx:id="wait" url="@umpire_stop.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>

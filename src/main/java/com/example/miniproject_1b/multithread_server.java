@@ -14,7 +14,7 @@ public class multithread_server extends Thread{
 
     public void run(){
         try {
-            while(playerNo<CowBull_settings.noOfPlayers-2) {
+            while(playerNo<CowBull_settings.noOfPlayers-1) {
                 server = new ServerSocket(5555);
                 connection = server.accept();
                 connections[playerNo]=new server_connections(connection,playerNo+1);
@@ -34,7 +34,7 @@ public class multithread_server extends Thread{
                 if(i==CowBull_controller.chance-1 && guess.length()!=1)
                     continue;
                 try{
-                connections[i].output.writeUTF(guess);}
+                    connections[i].output.writeUTF(guess);}
                 catch (NullPointerException e){
                     System.out.println("Exception at "+i);
                 }

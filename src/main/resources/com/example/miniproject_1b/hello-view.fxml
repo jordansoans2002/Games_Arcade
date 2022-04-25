@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="290.0" prefWidth="388.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-    <StackPane prefHeight="113.0" prefWidth="302.0">
-        <ImageView fx:id="five_hand" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@5.png" />
-         </image></ImageView>
-
-        <ImageView fx:id="fist" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-           <image>
-              <Image url="@tilted_fist.png" />
-           </image>
+<AnchorPane prefHeight="462.0" prefWidth="659.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.HelloController">
+    <children>
+        <ImageView fitHeight="416.0" fitWidth="659.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Image url="@cricket-pitch.png" />
         </ImageView>
-    </StackPane>
-    <TextField fx:id="run" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#onHelloButtonClick" prefColumnCount="5" prefHeight="25.0" prefWidth="77.0" />
-    <Button fx:id="button" onAction="#onHelloButtonClick" text="Hello!" />
-</VBox>
+        <ImageView fx:id="backHand" fitHeight="46.0" fitWidth="55.0" layoutX="340.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+            <Image fx:id="fist" url="@fist.png" />
+        </ImageView>
+        <ImageView fx:id="foreHand" fitHeight="70.0" fitWidth="70.0" layoutX="321.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@fist.png" />
+        </ImageView>
+
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image fx:id="five" url="@five.png" />
+         </image>
+         <image>
+            <Image fx:id="four" url="@four.png" />
+         </image>
+         <image>
+            <Image fx:id="three" url="@three.png" />
+         </image>
+         <image>
+            <Image fx:id="two" url="@two.png" />
+         </image>
+         <image>
+            <Image fx:id="one" url="@one.png" />
+         </image>
+          <image>
+              <Image fx:id="zero" url="@zero.png" />
+          </image>
+      </ImageView>
+      <ImageView fx:id="umpire" fitHeight="70.0" fitWidth="56.0" layoutX="293.0" layoutY="147.0" onMouseClicked="#setAnimation" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image fx:id="ready" url="@umpire_ready.png" />
+             <Image fx:id="stop" url="@umpire_stop.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>
