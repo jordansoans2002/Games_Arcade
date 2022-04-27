@@ -75,13 +75,15 @@ public class CowBull_settings extends Application {
         ServerSocket serverSocket;
         try {
             serverSocket=new ServerSocket(5555);
+            //InetAddress localhost=InetAddress.getLocalHost();
+            //String ipAddress=localhost.getHostAddress();
+            //ipAddress.setText(ipAddress);
             CowBull_controller.playerNo=0;
-            //ipAddress.setText(String.valueOf(serverSocket.));
             ipAddress.setText("my IP address");
             ipAddress.setVisible(true);
             serverIP.setVisible(false);
             multiPC =true;
-        } catch (IOException e) {
+        } catch (IOException e) {//UnknownHostException e
             e.printStackTrace();
         }
 
