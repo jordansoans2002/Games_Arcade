@@ -30,6 +30,15 @@ public class HandCricket_networking extends Thread {
             output=new DataOutputStream(connection.getOutputStream());
             System.out.println("connection setup");
 
+            if(HandCricket.server){
+                int toss=(int)(Math.random()*2);
+                HandCricket.batting= toss==0;
+                output.writeInt(toss);
+            }
+            else{
+                HandCricket.batting= input.readInt()==1;
+            }
+
             while(connection.isConnected()) {
                 while (input.available() == 0) {
                     Thread.sleep(1000);

@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class CowBull_controller {
-    static int playerNo=1;
+    static int playerNo=0;
 
     static Scene gameScene;
     static CowBull_multiplayer[] ob;
@@ -27,13 +27,15 @@ public class CowBull_controller {
         window.setScene(gameScene);
         window.show();
         window.setOnCloseRequest(e->{
-            if(playerNo == 0)
-                multithread_server.closeChat();
-            else
-                multithread_client.closeChat();
+            if(CowBull_settings.multiPC) {
+                if (playerNo == 0)
+                    multithread_server.closeChat();
+                else
+                    multithread_client.closeChat();
+            }
         });
 
-        if(CowBull_settings.noOfPlayers>1) {
+        if(CowBull_settings.noOfPlayers>1 && CowBull_settings.multiPC) {
             //multiplayer_server.main();
             if(playerNo == 0)
                 new multithread_server().start();
@@ -131,9 +133,8 @@ public class CowBull_controller {
         }
 
 
-        if(chance == playerNo && CowBull_settings.noOfPlayers>1){
+        if(chance == playerNo && CowBull_settings.noOfPlayers>1 && CowBull_settings.multiPC){
             //multiplayer_server.send(guessedWord);
-
             if(playerNo == 0)
                 multithread_server.send(guessedWord);
             else
@@ -141,7 +142,7 @@ public class CowBull_controller {
         }
         chance += dir;
         nextTurn();
-        if(chance !=0 && playerNo == 0) {
+        if(chance !=0 && playerNo == 0 && CowBull_settings.multiPC) {
             /*multiplayer_server.send(chance+"");
                String inMsg = multiplayer_server.receive().toUpperCase();
                gameplay(inMsg);*/

@@ -9,11 +9,12 @@ public class multithread_client extends Thread{
     static Socket connection;
     static DataInputStream input;
     static DataOutputStream output;
+    static String host;
 
     @Override
     public void run(){
         try {
-            connection=new Socket("localhost",5555);
+            connection=new Socket(host,5555);
             output=new DataOutputStream(connection.getOutputStream());
             output.flush();
             input=new DataInputStream(connection.getInputStream());

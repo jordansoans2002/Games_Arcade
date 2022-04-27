@@ -6,9 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.ServerSocket;
 
 public class CowBull_settings extends Application {
 
@@ -63,8 +68,46 @@ public class CowBull_settings extends Application {
     @FXML
     void setPlayers5(){setNoOfPlayers(5);}
 
+    public Label ipAddress;
+    public TextField serverIP;
+    @FXML
+    void setServer(){
+        ServerSocket serverSocket;
+        try {
+            serverSocket=new ServerSocket(5555);
+            CowBull_controller.playerNo=0;
+            //ipAddress.setText(String.valueOf(serverSocket.));
+            ipAddress.setText("my IP address");
+            ipAddress.setVisible(true);
+            serverIP.setVisible(false);
+            multiPC =true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    @FXML
+    void setClient(){
+        CowBull_controller.playerNo=1;
+        ipAddress.setVisible(false);
+        serverIP.setVisible(true);
+        multiPC =true;
+    }
+    @FXML
+    void setHost(){
+        multithread_client.host=serverIP.getText();
+    }
+    @FXML
+    void setSinglePC(){
+        CowBull_controller.playerNo=0;
+        multiPC =false;
+        ipAddress.setVisible(false);
+        serverIP.setVisible(false);
+    }
+
     static String target="SNOW";
     static int noOfPlayers=1;
+    static boolean multiPC =true;
     static int difficulty=2;
     static int wordLength=4;
 
@@ -81,10 +124,9 @@ public class CowBull_settings extends Application {
 
     @FXML
     void startGame() {
+        target=CowBull_dictionary.getWord(wordLength);
         CowBull_controller.startGame();
         //clientController.startGame();
-        
-        target=CowBull_dictionary.getWord(wordLength);
     }
 
     double normal=33,selected=37;

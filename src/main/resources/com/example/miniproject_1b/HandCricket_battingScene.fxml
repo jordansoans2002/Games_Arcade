@@ -39,7 +39,7 @@
          </image>
       </ImageView>
 
-      <ImageView fx:id="umpire" fitHeight="70.0" fitWidth="56.0" layoutX="293.0" layoutY="147.0" onMouseClicked="#setAnimation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="umpire" fitHeight="70.0" fitWidth="56.0" layoutX="293.0" layoutY="147.0" onMouseClicked="#startAnimation" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image fx:id="play" url="@umpire_ready.png" />
             <Image fx:id="wait" url="@umpire_stop.png" />

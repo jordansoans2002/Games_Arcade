@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,71 +19,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HandCricket_controller extends Application {
 
-    boolean takeInput =false,gameLoop =false;
-    public static void main(String []args){
-        HandCricket.main();
-        launch();
-    }
-    @FXML
-    public void start(Stage stage) throws IOException {
-        FXMLLoader batting= new FXMLLoader(HandCricket_controller.class.getResource("HandCricket_battingScene.fxml"));
-        FXMLLoader bowling= new FXMLLoader(HandCricket_controller.class.getResource("HandCricket_bowlingScene.fxml"));
-        Scene battingScene=new Scene(batting.load());
-        Scene bowlingScene=new Scene(bowling.load());
-
-        battingScene.setOnKeyPressed(e->{
-            if(takeInput) {
-                try {
-                    int n = Integer.parseInt(e.getText());
-                    if (n <= 6 && n >= 0) {
-                        System.out.println("input: "+n);
-                        if (!HandCricket.score(n)) {
-                            stage.close();
-                            System.out.println("did i win? " + HandCricket.winner);
-                        }
-                    }
-                    System.out.println(n);
-                    if (!HandCricket.batting)
-                        stage.setScene(bowlingScene);
-                } catch (NumberFormatException numberFormatException) {
-                    //todo
-                }
-            }
-        });
-        bowlingScene.setOnKeyPressed(e->{
-            try {
-                int n = Integer.parseInt(e.getText());
-                if(n<=6 && n>=0) {
-                    System.out.println("input: "+n);
-                    if(!HandCricket.score(n)){
-                        stage.close();
-                        System.out.println("did i win? "+HandCricket.winner);
-                    }
-                }
-                if(!HandCricket.batting)
-                    stage.setScene(bowlingScene);
-            }catch (NumberFormatException numberFormatException){
-                //todo
-            }
-        });
-        if(HandCricket.batting)
-            stage.setScene(battingScene);
-        else
-            stage.setScene(bowlingScene);
-
-        stage.setOnCloseRequest(e->HandCricket_networking.closeChat());
-        stage.show();
-    }
+    static boolean takeInput =false,gameLoop =false,gameOver=false;
+    static int input;
 
     public ImageView umpire;
     public Image wait;
     public Image play;
-
-    @FXML
-    private ImageView foreHand;
-    @FXML
-    private ImageView backHand;
-
+    public ImageView foreHand;
+    public ImageView backHand;
     public Image fist;
     public Image six;
     public Image five;
@@ -91,12 +35,65 @@ public class HandCricket_controller extends Application {
     public Image two;
     public Image one;
     public Image zero;
+    public static void main(String []args){
+        HandCricket.main();
+        launch();
+    }
 
     @FXML
-    protected void setAnimation() {
+    public void setScene(){
+        if(HandCricket.batting){
+            foreHand.setLayoutX(321.0);
+            foreHand.setLayoutY(285.0);
+            backHand.setLayoutX(340.0);
+            backHand.setLayoutY(171.0);
+            umpire.setLayoutX(293.0);
+            umpire.setLayoutY(147.0);
+            umpire.setFitHeight(70.0);
+            umpire.setFitWidth(56.0);
+        }
+        else{
+            foreHand.setLayoutX(349.0);
+            foreHand.setLayoutY(310.0);
+            backHand.setLayoutX(309.0);
+            backHand.setLayoutY(166.0);
+            umpire.setLayoutX(274.0);
+            umpire.setLayoutY(244.0);
+            umpire.setFitHeight(105.0);
+            umpire.setFitWidth(74.0);
+        }
+        foreHand.setVisible(true);
+        backHand.setVisible(true);
+        umpire.setVisible(true);
+    }
+
+    @FXML
+    public void start(Stage stage) throws IOException {
+        FXMLLoader bowling= new FXMLLoader(HandCricket_controller.class.getResource("HandCricket.fxml"));
+        Scene bowlingScene=new Scene(bowling.load());
+
+        bowlingScene.setOnKeyPressed(e->{
+            if(takeInput) {
+                try {
+                    int n = Integer.parseInt(e.getText());
+                    if (n <= 6 && n >= 0) {
+                        input = n;
+                    }
+                } catch (NumberFormatException numberFormatException) {
+                    //todo
+                }
+            }
+        });
+
+        stage.setScene(bowlingScene);
+        stage.setOnCloseRequest(e->HandCricket_networking.closeChat());
+        stage.show();
+    }
+
+    @FXML
+    protected void startAnimation() {
         gameLoop = !gameLoop;
         Image[] numbers={zero,one,two,three,four,five,six};
-        //both hands can be used with same or opposite values
         KeyValue foreTurn0 = new KeyValue(foreHand.rotateProperty(), 0);
         KeyValue foreTurn1 = new KeyValue(foreHand.rotateProperty(), 23);
         KeyValue foreTurn2 = new KeyValue(foreHand.rotateProperty(), 35);
@@ -127,9 +124,6 @@ public class HandCricket_controller extends Application {
         KeyValue backMoveY2 = new KeyValue(backHand.translateYProperty(),-25);
         KeyValue backMoveY3 = new KeyValue(backHand.translateYProperty(),-67);
 
-        KeyValue showFore=new KeyValue(foreHand.imageProperty(),three);
-        KeyValue showBack=new KeyValue(backHand.imageProperty(),three);
-
         KeyValue readyUmp=new KeyValue(umpire.imageProperty(),wait);
         KeyValue playUmp=new KeyValue(umpire.imageProperty(), play);
 
@@ -141,7 +135,6 @@ public class HandCricket_controller extends Application {
 
         KeyFrame showUp=new KeyFrame(Duration.seconds(0.2),foreTurn1,foreMoveX1,foreMoveY1,backTurn1,backMoveX1,backMoveY1,foreTurn2,foreMoveX2,foreMoveY2,backTurn2,backMoveX2,backMoveY2,foreTurn3,foreMoveX3,foreMoveY3,backTurn3,backMoveX3,backMoveY3);
         KeyFrame showDn=new KeyFrame(Duration.seconds(0.3),foreTurn2,foreMoveX2,foreMoveY2,backTurn2,backMoveX2,backMoveY2,foreTurn1,foreMoveX1,foreMoveY1,backTurn1,backMoveX1,backMoveY1,foreTurn0,foreMoveX0,foreMoveY0,backTurn0,backMoveX0,backMoveY0);
-        KeyFrame show=new KeyFrame(Duration.seconds(0.2),showFore,showBack);
 
         Timeline startMove=new Timeline(play);
         startMove.setDelay(Duration.seconds(1));
@@ -150,7 +143,6 @@ public class HandCricket_controller extends Application {
         Timeline moveDown=new Timeline(mvtDn);
         Timeline showingUp=new Timeline(showUp);
         Timeline showDown=new Timeline(showDn);
-        Timeline showHand=new Timeline(show);
         Timeline reset=new Timeline(new KeyFrame(Duration.seconds(0.2),new KeyValue(foreHand.imageProperty(),fist),new KeyValue(backHand.imageProperty(),fist)));
         reset.setDelay(Duration.seconds(0.5));
 
@@ -170,8 +162,19 @@ public class HandCricket_controller extends Application {
                 showingUp.play();
             }
         });
-        showingUp.setOnFinished(e->stopMove.play());
+        showingUp.setOnFinished(e->{
+            if (HandCricket.score(input,HandCricket_networking.inMsg)) {
+                setScene();
+                gameLoop=false;
+            }
+            stopMove.play();
+        });
+
         stopMove.setOnFinished(e->{
+            KeyValue showFore=new KeyValue(foreHand.imageProperty(),numbers[input]);
+            KeyValue showBack=new KeyValue(backHand.imageProperty(),numbers[HandCricket_networking.inMsg]);
+            KeyFrame show=new KeyFrame(Duration.seconds(0.2),showFore,showBack);
+            Timeline showHand=new Timeline(show);
             takeInput=false;
             showDown.play();
             showHand.play();
@@ -179,10 +182,12 @@ public class HandCricket_controller extends Application {
         showDown.setOnFinished(e->reset.play());
         reset.setOnFinished(e->{
             n.set(3);
-            if(gameLoop)
+            if(gameLoop&& !gameOver)
                 startMove.play();
         });
-        if(gameLoop)
+        if(gameLoop && !gameOver)
             startMove.playFromStart();
+        if(gameOver)
+            System.out.println("did i win? " + HandCricket.winner);
     }
 }
