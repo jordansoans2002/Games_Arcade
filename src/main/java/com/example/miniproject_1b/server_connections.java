@@ -25,6 +25,7 @@ public class server_connections extends Thread{
             output.writeInt(playerNo);
             output.writeUTF(CowBull_settings.target);
             output.writeInt(CowBull_settings.difficulty);
+            output.writeInt(CowBull_settings.noOfPlayers);
 
             while(connection.isConnected()) {
                 while (input.available() == 0) {
