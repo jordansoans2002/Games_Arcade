@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 
 public class CowBull_settings extends Application {
@@ -72,14 +73,11 @@ public class CowBull_settings extends Application {
     public TextField serverIP;
     @FXML
     void setServer(){
-        ServerSocket serverSocket;
         try {
-            serverSocket=new ServerSocket(5555);
-            //InetAddress localhost=InetAddress.getLocalHost();
-            //String ipAddress=localhost.getHostAddress();
-            //ipAddress.setText(ipAddress);
+            InetAddress localhost=InetAddress.getLocalHost();
+            String ipAdd=localhost.getHostAddress();
+            ipAddress.setText(ipAdd);
             CowBull_controller.playerNo=0;
-            ipAddress.setText("my IP address");
             ipAddress.setVisible(true);
             serverIP.setVisible(false);
             multiPC =true;
@@ -96,10 +94,6 @@ public class CowBull_settings extends Application {
         multiPC =true;
     }
     @FXML
-    void setHost(){
-        multithread_client.host=serverIP.getText();
-    }
-    @FXML
     void setSinglePC(){
         CowBull_controller.playerNo=0;
         multiPC =false;
@@ -109,7 +103,7 @@ public class CowBull_settings extends Application {
 
     static String target="SNOW";
     static int noOfPlayers=1;
-    static boolean multiPC =true;
+    static boolean multiPC =false;
     static int difficulty=2;
     static int wordLength=4;
 
@@ -126,8 +120,19 @@ public class CowBull_settings extends Application {
 
     @FXML
     void startGame() {
-        target=CowBull_dictionary.getWord(wordLength);
+        if(multiPC) {
+            //multiplayer_server.main();
+            if(CowBull_controller.playerNo == 0) {
+                target = CowBull_dictionary.getWord(wordLength);
+                new multithread_server().start();
+            }
+            else{
+                multithread_client.host=serverIP.getText();
+                new multithread_client().start();
+            }
+        }
         CowBull_controller.startGame();
+
         //clientController.startGame();
     }
 
