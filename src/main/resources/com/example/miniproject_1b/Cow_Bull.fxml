@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="360" prefWidth="280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.CowBull">
+<AnchorPane prefHeight="360" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject_1b.CowBull">
 
     <opaqueInsets>
         <Insets />
@@ -14,9 +14,9 @@
     <Label layoutX="163.0" layoutY="20.0" text="Cows" textFill="GREEN" />
     <Label layoutX="222.0" layoutY="20.0" text="Bulls" textFill="RED" />
 
-    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="5.0" layoutY="58.0" prefHeight="310.0" prefWidth="270.0" vbarPolicy="NEVER">
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="15.0" layoutY="58.0" prefHeight="310.0" prefWidth="270.0" vbarPolicy="NEVER">
         <padding>
-            <Insets bottom="7.0" top="5.0" />
+            <Insets bottom="3.0" top="5.0" />
         </padding>
 
         <content>

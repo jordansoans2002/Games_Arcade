@@ -1,6 +1,7 @@
 package com.example.miniproject_1b;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -131,8 +132,9 @@ public class CowBull_settings extends Application {
                 new multithread_client().start();
             }
         }
+        else
+            target = CowBull_dictionary.getWord(wordLength);
         CowBull_controller.startGame();
-
         //clientController.startGame();
     }
 

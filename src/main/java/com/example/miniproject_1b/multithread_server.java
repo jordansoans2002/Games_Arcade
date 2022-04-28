@@ -11,19 +11,16 @@ public class multithread_server extends Thread{
     static server_connections[] connections=new server_connections[CowBull_settings.noOfPlayers-1];
     int playerNo=0;
 
-
     public void run(){
         try {
+            server = new ServerSocket(5555);
             while(playerNo<CowBull_settings.noOfPlayers-1) {
-                server = new ServerSocket(5555);
                 connection = server.accept();
-                System.out.println("connection accepted");
                 connections[playerNo]=new server_connections(connection,playerNo+1);
                 connections[playerNo].start();
                 System.out.println((playerNo+1)+" set up");
                 playerNo++;
             }
-            System.out.println("all clients done");
         }catch (IOException e){
             //todo
         }
@@ -37,7 +34,7 @@ public class multithread_server extends Thread{
                 try{
                     connections[i].output.writeUTF(guess);}
                 catch (NullPointerException e){
-                    System.out.println("Exception at "+i);
+                    System.out.println("Player "+i+" has disconnected");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -46,14 +43,13 @@ public class multithread_server extends Thread{
     }
 
     public static void closeChat(){
-        int i=0;
         try {
-            for (i = 0; i < CowBull_settings.noOfPlayers - 1; i++) {
-                connections[i].closeChat();
+            for (int i = 0; i < CowBull_settings.noOfPlayers - 1; i++) {
+                if(connections[i]!=null)
+                    connections[i].closeChat();
             }
-        }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
-            System.out.println(i+" is not connected");
+        }catch (ArrayIndexOutOfBoundsException e){
+            //todo;
         }
-
     }
 }

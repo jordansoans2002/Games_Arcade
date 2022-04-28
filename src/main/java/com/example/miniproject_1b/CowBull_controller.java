@@ -4,11 +4,15 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.Objects;
 
@@ -19,6 +23,7 @@ public class CowBull_controller {
     static CowBull_multiplayer[] ob;
     static TextField enterGuesses;
     static HBox multiplayer;
+    static Label playerChance;
 
     static void startGame() {
         CowBull_controller.gameLayout();
@@ -34,18 +39,9 @@ public class CowBull_controller {
                     multithread_client.closeChat();
             }
         });
-
-        /*if(CowBull_settings.noOfPlayers>1 && CowBull_settings.multiPC) {
-            //multiplayer_server.main();
-            if(playerNo == 0)
-                new multithread_server().start();
-            else
-                new multithread_client().start();
-        }*/
     }
     static void gameLayout(){
         VBox layout=new VBox();
-        //layout.setPrefSize(400,320);
         layout.setSpacing(10);
         layout.setPadding(new Insets(20,10,20,10));
         layout.setAlignment(Pos.CENTER);
@@ -69,15 +65,33 @@ public class CowBull_controller {
         multiplayer=new HBox(20);
         multiplayer.setAlignment(Pos.CENTER);
         ob=new CowBull_multiplayer[CowBull_settings.noOfPlayers];
-        System.out.println(CowBull_settings.noOfPlayers+" "+CowBull_settings.wordLength+" "+CowBull_settings.target);
         for(int i=0;i<CowBull_settings.noOfPlayers;i++) {
             ob[i] = new CowBull_multiplayer();
             ob[i].player = i;
             ob[i].playerLayout();
         }
 
-        layout.getChildren().addAll(group,multiplayer);
-        gameScene=new Scene(layout);
+        playerChance=new Label("Player 1 to play");
+        playerChance.setAlignment(Pos.BASELINE_LEFT);
+        playerChance.setFont(Font.font("Comic Sans MS",15));
+        Rectangle showTarget=new Rectangle(5,5);
+        showTarget.setOnMouseClicked(e->{
+            enterGuesses.setText(CowBull_settings.target);
+            enterGuesses.setEditable(false);
+            if (playerNo == 0)
+                multithread_server.closeChat();
+            else
+                multithread_client.closeChat();
+        });
+        HBox footer=new HBox(3);
+        footer.setAlignment(Pos.BASELINE_CENTER);
+        if(CowBull_settings.noOfPlayers==1)
+            footer.getChildren().add(showTarget);
+        else
+            footer.getChildren().addAll(playerChance,showTarget);
+
+        layout.getChildren().addAll(group,multiplayer,footer);
+        gameScene=new Scene(layout,CowBull_settings.noOfPlayers*300,420);
     }
 
 
@@ -153,7 +167,6 @@ public class CowBull_controller {
 
         /*chance += dir;
         nextTurn();*/
-        enterGuesses.setPromptText("player "+(chance+1));
     }
     static void nextTurn(){
         if(chance==CowBull_settings.noOfPlayers){
@@ -166,6 +179,9 @@ public class CowBull_controller {
         }
         if(playerNo != 0) //server can enter guess for any player
             enterGuesses.setEditable(chance == playerNo);
+
+        playerChance.setText("Player "+(chance+1)+" to play");
+        enterGuesses.setPromptText("player "+(chance+1));
     }
     static void getGuess(String guess){
         Platform.runLater(() -> {
