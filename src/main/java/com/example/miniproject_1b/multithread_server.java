@@ -17,12 +17,13 @@ public class multithread_server extends Thread{
             while(playerNo<CowBull_settings.noOfPlayers-1) {
                 server = new ServerSocket(5555);
                 connection = server.accept();
+                System.out.println("connection accepted");
                 connections[playerNo]=new server_connections(connection,playerNo+1);
                 connections[playerNo].start();
                 System.out.println((playerNo+1)+" set up");
                 playerNo++;
             }
-            System.out.println(playerNo);
+            System.out.println("all clients done");
         }catch (IOException e){
             //todo
         }
@@ -45,8 +46,13 @@ public class multithread_server extends Thread{
     }
 
     public static void closeChat(){
-        for(int i=0;i<CowBull_settings.noOfPlayers-1;i++){
-            connections[i].closeChat();
+        int i=0;
+        try {
+            for (i = 0; i < CowBull_settings.noOfPlayers - 1; i++) {
+                connections[i].closeChat();
+            }
+        }catch (NullPointerException | ArrayIndexOutOfBoundsException e){
+            System.out.println(i+" is not connected");
         }
 
     }
