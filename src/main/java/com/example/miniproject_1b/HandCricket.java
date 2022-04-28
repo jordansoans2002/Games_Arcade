@@ -5,19 +5,21 @@ import java.util.Scanner;
 
 public class HandCricket {
     static int totalRuns=0,runsInOver=0,ballsBowled=0,innings=1,target,max=6;
-    static boolean server=true,batting=false,winner;
+    static boolean multiPlayer=false,server=true,batting=false,winner;
+    static int level=2;
 
     public static void main() {
         System.out.println("LETS START THE GAME");
         System.out.println("HAND CRICKET");
-        new HandCricket_networking().start();
-        System.out.println("server started");
+        if(multiPlayer)
+            new HandCricket_networking().start();
+        else
+            batting = (int)(Math.random()*2)==0;
     }
 
     static boolean score(int n,int inMsg){
         //int run = batting? n:HandCricket_networking.receive();
         //int ball = batting? HandCricket_networking.receive():n;
-        HandCricket_networking.send(n);
         int run = batting? n:inMsg;
         int ball = batting? inMsg:n;
 
@@ -50,13 +52,10 @@ public class HandCricket {
         totalRuns += run;
         ballsBowled++;
         runsInOver += run;
-        System.out.println("runs "+totalRuns+" runs in over "+runsInOver);
+        System.out.println("runs "+totalRuns);
 
-        if(ballsBowled%6==0) {
-            System.out.println("over completed");
+        if(ballsBowled%6==0)
             System.out.println("runs in this over "+runsInOver);
-            runsInOver = 0;
-        }
 
         if(innings==2 && totalRuns>=target){
             if(batting) {

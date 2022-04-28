@@ -4,12 +4,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -20,11 +22,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HandCricket_controller extends Application {
 
     static boolean takeInput =false,gameLoop =false,gameOver=false;
-    static int input;
+    static int input,inMsg;
 
     public ImageView umpire;
     public Image wait;
     public Image play;
+    public Image out;
     public ImageView foreHand;
     public ImageView backHand;
     public Image fist;
@@ -35,6 +38,13 @@ public class HandCricket_controller extends Application {
     public Image two;
     public Image one;
     public Image zero;
+
+    public Label batting;
+    public Label innings;
+    public Label mathLabel;
+    public TextField mathInput;
+    public ImageView trophy;
+
     public static void main(String []args){
         HandCricket.main();
         launch();
@@ -43,6 +53,7 @@ public class HandCricket_controller extends Application {
     @FXML
     public void setScene(){
         if(HandCricket.batting){
+            batting.setText("On-strike");
             foreHand.setLayoutX(321.0);
             foreHand.setLayoutY(285.0);
             backHand.setLayoutX(340.0);
@@ -53,6 +64,7 @@ public class HandCricket_controller extends Application {
             umpire.setFitWidth(56.0);
         }
         else{
+            batting.setText("Bowling");
             foreHand.setLayoutX(349.0);
             foreHand.setLayoutY(310.0);
             backHand.setLayoutX(309.0);
@@ -62,9 +74,17 @@ public class HandCricket_controller extends Application {
             umpire.setFitHeight(105.0);
             umpire.setFitWidth(74.0);
         }
+        if(HandCricket.innings==1)
+            innings.setText("1st Innings");
+        else
+            innings.setText("Target is "+HandCricket.target);
+
+        umpire.setImage(wait);
+        umpire.setVisible(true);
         foreHand.setVisible(true);
         backHand.setVisible(true);
-        umpire.setVisible(true);
+        mathLabel.setVisible(false);
+        mathInput.setVisible(false);
     }
 
     @FXML
@@ -163,16 +183,25 @@ public class HandCricket_controller extends Application {
             }
         });
         showingUp.setOnFinished(e->{
-            if (HandCricket.score(input,HandCricket_networking.inMsg)) {
-                setScene();
+            if(HandCricket.multiPlayer) {
+                HandCricket_networking.send(input);
+                inMsg = HandCricket_networking.inMsg;
+            }
+            else
+                inMsg=3;//(int)(Math.random()*7);
+
+            if (HandCricket.score(input,inMsg)) {
                 gameLoop=false;
+                mathLabel.setText("Out");
+                mathLabel.setVisible(true);
+                umpire.setImage(out);
             }
             stopMove.play();
         });
 
         stopMove.setOnFinished(e->{
             KeyValue showFore=new KeyValue(foreHand.imageProperty(),numbers[input]);
-            KeyValue showBack=new KeyValue(backHand.imageProperty(),numbers[HandCricket_networking.inMsg]);
+            KeyValue showBack=new KeyValue(backHand.imageProperty(),numbers[inMsg]);
             KeyFrame show=new KeyFrame(Duration.seconds(0.2),showFore,showBack);
             Timeline showHand=new Timeline(show);
             takeInput=false;
@@ -182,12 +211,80 @@ public class HandCricket_controller extends Application {
         showDown.setOnFinished(e->reset.play());
         reset.setOnFinished(e->{
             n.set(3);
+            if(HandCricket.ballsBowled%6==0 && HandCricket.ballsBowled!=0){
+                gameLoop=false;
+                if(HandCricket.level != 0)
+                    showMath();
+            }
             if(gameLoop&& !gameOver)
                 startMove.play();
+
+            if(gameOver){
+                if(HandCricket.winner) {
+                    mathLabel.setText("You Won!!!");
+                    trophy.setVisible(true);
+                }
+                else
+                    mathLabel.setText("you lost");
+                mathLabel.setVisible(true);
+            }
+
         });
         if(gameLoop && !gameOver)
             startMove.playFromStart();
-        if(gameOver)
-            System.out.println("did i win? " + HandCricket.winner);
     }
+
+    void showMath(){
+        if(HandCricket.batting || !HandCricket.multiPlayer) {
+            if (HandCricket.innings == 1){
+                if(HandCricket.level==2)
+                    mathLabel.setText("Enter runs scored in this over");
+                if(HandCricket.level==3)
+                    mathLabel.setText("Enter total runs");
+            }
+            else
+                mathLabel.setText("Enter runs needed to win");
+
+            mathLabel.setVisible(true);
+            mathInput.setVisible(true);
+            mathInput.setOnKeyPressed(e->{
+                if(e.getCode() == KeyCode.ENTER){
+                    int n;
+                    try{
+                        n=Integer.parseInt(mathInput.getText());
+                    }catch (NumberFormatException numberFormatException){
+                        n=0;
+                    }
+                    mathInput.clear();
+
+                    if(checkMath(n)){
+                    HandCricket.runsInOver=0;
+                    mathInput.setVisible(false);
+                    mathLabel.setVisible(false);
+                    startAnimation();
+                    }
+                    else {
+                        mathLabel.setText("Run Out!!!");
+                        mathInput.setVisible(false);
+                        umpire.setImage(out);
+                        HandCricket.score(0, 0);
+                    }
+                }
+            });
+        }
+    }
+
+    boolean checkMath(int n){
+        if(HandCricket.innings==1){
+            if(HandCricket.level==2)
+                return HandCricket.runsInOver == n;
+            if(HandCricket.level== 3)
+                return HandCricket.totalRuns == n;
+        }
+        else
+            return (HandCricket.target-HandCricket.totalRuns)==n;
+
+        return false;
+    }
+
 }
