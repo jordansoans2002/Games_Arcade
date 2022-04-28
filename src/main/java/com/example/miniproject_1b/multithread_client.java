@@ -22,6 +22,7 @@ public class multithread_client extends Thread{
             CowBull_settings.target=input.readUTF();
             CowBull_settings.wordLength=CowBull_settings.target.length();
             CowBull_settings.difficulty=input.readInt();
+            CowBull_settings.noOfPlayers=input.readInt();
 
             while (connection.isConnected()){
                 while(input.available() == 0){
