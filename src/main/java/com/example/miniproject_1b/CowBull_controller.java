@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class CowBull_controller {
-    static int playerNo=0;
+    static int playerNo;
 
     static Scene gameScene;
     static CowBull_multiplayer[] ob;
@@ -35,13 +35,13 @@ public class CowBull_controller {
             }
         });
 
-        if(CowBull_settings.noOfPlayers>1 && CowBull_settings.multiPC) {
+        /*if(CowBull_settings.noOfPlayers>1 && CowBull_settings.multiPC) {
             //multiplayer_server.main();
             if(playerNo == 0)
                 new multithread_server().start();
             else
                 new multithread_client().start();
-        }
+        }*/
     }
     static void gameLayout(){
         VBox layout=new VBox();
@@ -69,6 +69,7 @@ public class CowBull_controller {
         multiplayer=new HBox(20);
         multiplayer.setAlignment(Pos.CENTER);
         ob=new CowBull_multiplayer[CowBull_settings.noOfPlayers];
+        System.out.println(CowBull_settings.noOfPlayers+" "+CowBull_settings.wordLength+" "+CowBull_settings.target);
         for(int i=0;i<CowBull_settings.noOfPlayers;i++) {
             ob[i] = new CowBull_multiplayer();
             ob[i].player = i;
@@ -133,7 +134,7 @@ public class CowBull_controller {
         }
 
 
-        if(chance == playerNo && CowBull_settings.noOfPlayers>1 && CowBull_settings.multiPC){
+        if(chance == playerNo && CowBull_settings.multiPC){
             //multiplayer_server.send(guessedWord);
             if(playerNo == 0)
                 multithread_server.send(guessedWord);
@@ -173,7 +174,8 @@ public class CowBull_controller {
                 if(toPlay==playerNo)
                     enterGuesses.setEditable(true);
             }
-            gameplay(guess);
+            else
+                gameplay(guess);
         });
     }
 }
