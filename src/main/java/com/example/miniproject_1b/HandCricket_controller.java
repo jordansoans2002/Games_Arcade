@@ -3,7 +3,6 @@ package com.example.miniproject_1b;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,7 +18,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class HandCricket_controller extends Application {
+public class HandCricket_controller {
 
     static boolean takeInput =false,gameLoop =false,gameOver=false;
     static int input,inMsg;
@@ -45,9 +44,28 @@ public class HandCricket_controller extends Application {
     public TextField mathInput;
     public ImageView trophy;
 
-    public static void main(String []args){
-        HandCricket.main();
-        launch();
+    public static void startGame() throws IOException {
+        FXMLLoader bowling= new FXMLLoader(HandCricket_controller.class.getResource("HandCricket.fxml"));
+        Scene bowlingScene=new Scene(bowling.load());
+
+        bowlingScene.setOnKeyPressed(e->{
+            if(takeInput) {
+                try {
+                    int n = Integer.parseInt(e.getText());
+                    if (n <= 6 && n >= 0) {
+                        input = n;
+                    }
+                } catch (NumberFormatException numberFormatException) {
+                    //todo
+                }
+            }
+        });
+
+        Stage stage=new Stage();
+        stage.setScene(bowlingScene);
+        if(HandCricket_settings.multiPlayer)
+            stage.setOnCloseRequest(e->HandCricket_networking.closeChat());
+        stage.show();
     }
 
     @FXML
@@ -85,29 +103,6 @@ public class HandCricket_controller extends Application {
         backHand.setVisible(true);
         mathLabel.setVisible(false);
         mathInput.setVisible(false);
-    }
-
-    @FXML
-    public void start(Stage stage) throws IOException {
-        FXMLLoader bowling= new FXMLLoader(HandCricket_controller.class.getResource("HandCricket.fxml"));
-        Scene bowlingScene=new Scene(bowling.load());
-
-        bowlingScene.setOnKeyPressed(e->{
-            if(takeInput) {
-                try {
-                    int n = Integer.parseInt(e.getText());
-                    if (n <= 6 && n >= 0) {
-                        input = n;
-                    }
-                } catch (NumberFormatException numberFormatException) {
-                    //todo
-                }
-            }
-        });
-
-        stage.setScene(bowlingScene);
-        stage.setOnCloseRequest(e->HandCricket_networking.closeChat());
-        stage.show();
     }
 
     @FXML
@@ -183,7 +178,7 @@ public class HandCricket_controller extends Application {
             }
         });
         showingUp.setOnFinished(e->{
-            if(HandCricket.multiPlayer) {
+            if(HandCricket_settings.multiPlayer) {
                 HandCricket_networking.send(input);
                 inMsg = HandCricket_networking.inMsg;
             }
@@ -192,9 +187,12 @@ public class HandCricket_controller extends Application {
 
             if (HandCricket.score(input,inMsg)) {
                 gameLoop=false;
-                mathLabel.setText("Out");
+                if(HandCricket.ballsBowled*6 == HandCricket_settings.gameLength)
+                    mathLabel.setText("Innings completed");
+                else
+                    mathLabel.setText("Out");
                 mathLabel.setVisible(true);
-                umpire.setImage(out);
+                umpire.setImage(wait);
             }
             stopMove.play();
         });
@@ -211,16 +209,17 @@ public class HandCricket_controller extends Application {
         showDown.setOnFinished(e->reset.play());
         reset.setOnFinished(e->{
             n.set(3);
+
             if(HandCricket.ballsBowled%6==0 && HandCricket.ballsBowled!=0){
                 gameLoop=false;
-                if(HandCricket.level != 0)
+                if(HandCricket_settings.difficulty != 0)
                     showMath();
             }
             if(gameLoop&& !gameOver)
                 startMove.play();
 
             if(gameOver){
-                if(HandCricket.winner) {
+                if(HandCricket_settings.winner) {
                     mathLabel.setText("You Won!!!");
                     trophy.setVisible(true);
                 }
@@ -235,11 +234,11 @@ public class HandCricket_controller extends Application {
     }
 
     void showMath(){
-        if(HandCricket.batting || !HandCricket.multiPlayer) {
+        if(HandCricket.batting || !HandCricket_settings.multiPlayer) {
             if (HandCricket.innings == 1){
-                if(HandCricket.level==2)
+                if(HandCricket_settings.difficulty ==2)
                     mathLabel.setText("Enter runs scored in this over");
-                if(HandCricket.level==3)
+                if(HandCricket_settings.difficulty ==3)
                     mathLabel.setText("Enter total runs");
             }
             else
@@ -276,9 +275,9 @@ public class HandCricket_controller extends Application {
 
     boolean checkMath(int n){
         if(HandCricket.innings==1){
-            if(HandCricket.level==2)
+            if(HandCricket_settings.difficulty ==2)
                 return HandCricket.runsInOver == n;
-            if(HandCricket.level== 3)
+            if(HandCricket_settings.difficulty == 3)
                 return HandCricket.totalRuns == n;
         }
         else

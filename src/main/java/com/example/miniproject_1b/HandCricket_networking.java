@@ -11,6 +11,7 @@ public class HandCricket_networking extends Thread {
     static Socket connection;
     static DataOutputStream output;
     static DataInputStream input;
+    static String host;
 
     static int inMsg;
 
@@ -24,7 +25,7 @@ public class HandCricket_networking extends Thread {
                 System.out.println("got connection");
             }
             else{
-                connection = new Socket("localhost", 5555);
+                connection = new Socket("host", 5555);
             }
             input =new DataInputStream(connection.getInputStream());
             output=new DataOutputStream(connection.getOutputStream());
