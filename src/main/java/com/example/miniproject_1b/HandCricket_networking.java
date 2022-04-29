@@ -19,8 +19,8 @@ public class HandCricket_networking extends Thread {
     public void run(){
         try {
             if(HandCricket.server) {
+                System.out.println("server started");
                 server = new ServerSocket(5555);
-                connection = new Socket();
                 connection=server.accept();
                 System.out.println("got connection");
             }
@@ -29,6 +29,7 @@ public class HandCricket_networking extends Thread {
             }
             input =new DataInputStream(connection.getInputStream());
             output=new DataOutputStream(connection.getOutputStream());
+            HandCricket_controller.ready=true;
             System.out.println("connection setup");
 
             if(HandCricket.server){
@@ -45,6 +46,13 @@ public class HandCricket_networking extends Thread {
                     Thread.sleep(1000);
                 }
                 inMsg=input.readInt();
+                if(inMsg==-2) {
+                    HandCricket_controller.gameLoop = false;
+                    inMsg = 0;
+                }
+                if(inMsg==-1){
+                    HandCricket_controller.interrupt=true;
+                }
             }
             closeChat();
         } catch (IOException | InterruptedException e) {
