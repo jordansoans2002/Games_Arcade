@@ -66,30 +66,4 @@ public class HandCricket {
 
         return false;
     }
-
-    //for testing without GUI
-    /*public static void play(){
-        Scanner sc=new Scanner(System.in);
-        int input=0;
-        do {
-            try {
-                do {
-                    if (batting)
-                        System.out.print("enter runs ");
-                    else
-                        System.out.print("enter ball ");
-
-                    input = sc.nextInt();
-                    if (input > max || input < 0) {
-                        System.out.println("invalid input");
-                        continue;
-                    }
-                    break;
-                }while(true);
-            } catch (InputMismatchException e) {
-                continue;
-            }
-            HandCricket_networking.send(input);
-        }while (score(input));
-    }*/
 }
