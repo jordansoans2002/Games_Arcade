@@ -35,7 +35,9 @@ public class server_connections extends Thread{
                         e.printStackTrace();
                     }
                 }
-                CowBull_controller.getGuess(input.readUTF());
+                String inGuess=input.readUTF();
+                CowBull_controller.getGuess(inGuess);
+                multithread_server.send(inGuess);
             }
             closeChat();
         }catch (IOException e){
