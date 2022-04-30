@@ -11,33 +11,10 @@
             <Image url="@cricket-pitch.png" />
         </ImageView>
         <ImageView fx:id="backHand" fitHeight="46.0" fitWidth="55.0" layoutX="309.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true" visible="false">
-            <Image fx:id="fist" url="@fist.png" />
+            <Image url="@0.png" />
         </ImageView>
         <ImageView fx:id="foreHand" fitHeight="70.0" fitWidth="70.0" layoutX="349.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" visible="false">
-            <Image url="@fist.png" />
-        </ImageView>
-        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
-            <image>
-                <Image fx:id="six" url="@six.png" />
-            </image>
-            <image>
-                <Image fx:id="five" url="@five.png" />
-            </image>
-            <image>
-                <Image fx:id="four" url="@four.png" />
-            </image>
-            <image>
-                <Image fx:id="three" url="@three.png" />
-            </image>
-            <image>
-                <Image fx:id="two" url="@two.png" />
-            </image>
-            <image>
-                <Image fx:id="one" url="@one.png" />
-            </image>
-            <image>
-                <Image fx:id="zero" url="@zero.png" />
-            </image>
+            <Image url="@0.png" />
         </ImageView>
 
         <ImageView fx:id="umpire" fitHeight="105.0" fitWidth="74.0" layoutX="274.0" layoutY="244.0" onMouseClicked="#mainAnimation" pickOnBounds="true" preserveRatio="true" visible="false">
@@ -71,6 +48,38 @@
          <image>
             <Image url="@trophy.png" />
          </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="459.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true" visible="false">
+          <image>
+              <Image fx:id="zero" url="@0.png" />
+          </image>
+          <image>
+              <Image fx:id="one"   url="@1.png" />
+          </image>
+          <image>
+              <Image fx:id="two"   url="@2.png" />
+          </image>
+          <image>
+              <Image fx:id="three" url="@3.png" />
+          </image>
+          <image>
+              <Image fx:id="four" url="@4.png" />
+          </image>
+          <image>
+              <Image fx:id="five" url="@5.png" />
+          </image>
+          <image>
+              <Image fx:id="six"   url="@6.png" />
+          </image>
+          <image>
+              <Image fx:id="seven" url="@7.png" />
+          </image>
+          <image>
+              <Image fx:id="eight" url="@8.png" />
+          </image>
+          <image>
+              <Image fx:id="nine" url="@9.png" />
+          </image>
       </ImageView>
     </children>
 </AnchorPane>

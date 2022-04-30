@@ -31,7 +31,7 @@ public class CowBull {
         window=new Stage();
         FXMLLoader fxmlLoader=new FXMLLoader(CowBull_settings.class.getResource("Cow_Bull.fxml"));
         Scene scene=new Scene(fxmlLoader.load());
-        scene.getStylesheets().add(Objects.requireNonNull(CowBull_test.class.getResource("CowBull.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(CowBull.class.getResource("CowBull.css")).toExternalForm());
         window.setScene(scene);
         window.setX(315*player);
         //window.setY();

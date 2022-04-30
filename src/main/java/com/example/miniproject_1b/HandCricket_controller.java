@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HandCricket_controller {
 
+
     static boolean takeInput =false,gameLoop =false,gameOver=false;
     static boolean ready=false,interrupt;
     static int input,inMsg;
@@ -30,7 +31,9 @@ public class HandCricket_controller {
     public Image out;
     public ImageView foreHand;
     public ImageView backHand;
-    public Image fist;
+    public Image nine;
+    public Image eight;
+    public Image seven;
     public Image six;
     public Image five;
     public Image four;
@@ -44,6 +47,7 @@ public class HandCricket_controller {
     public Label mathLabel;
     public TextField mathInput;
     public ImageView trophy;
+
 
     public static void startGame() throws IOException {
         FXMLLoader bowling= new FXMLLoader(HandCricket_controller.class.getResource("HandCricket.fxml"));
@@ -85,9 +89,9 @@ public class HandCricket_controller {
             if(interrupt) {
                 startAnimation();
                 interrupt=false;
+            }
             if(!gameOver)
                 loop.play();
-            }
         });
         loop.play();
     }
@@ -141,7 +145,7 @@ public class HandCricket_controller {
                 HandCricket_networking.send(-2);
         }
 
-        Image[] numbers={zero,one,two,three,four,five,six};
+        Image[] numbers={zero,one,two,three,four,five,six,seven,eight,nine};
         KeyValue foreTurn0 = new KeyValue(foreHand.rotateProperty(), 0);
         KeyValue foreTurn1 = new KeyValue(foreHand.rotateProperty(), 23);
         KeyValue foreTurn2 = new KeyValue(foreHand.rotateProperty(), 35);
@@ -191,7 +195,7 @@ public class HandCricket_controller {
         Timeline moveDown=new Timeline(mvtDn);
         Timeline showingUp=new Timeline(showUp);
         Timeline showDown=new Timeline(showDn);
-        Timeline reset=new Timeline(new KeyFrame(Duration.seconds(0.2),new KeyValue(foreHand.imageProperty(),fist),new KeyValue(backHand.imageProperty(),fist)));
+        Timeline reset=new Timeline(new KeyFrame(Duration.seconds(0.2),new KeyValue(foreHand.imageProperty(),zero),new KeyValue(backHand.imageProperty(),zero)));
         reset.setDelay(Duration.seconds(0.5));
 
         startMove.setOnFinished(e->{
@@ -255,6 +259,10 @@ public class HandCricket_controller {
                 if(HandCricket_settings.winner) {
                     mathLabel.setText("You Won!!!");
                     trophy.setVisible(true);
+                    umpire.setVisible(false);
+                    foreHand.setVisible(false);
+                    backHand.setVisible(false);
+                    mathInput.setVisible(false);
                 }
                 else
                     mathLabel.setText("you lost");
