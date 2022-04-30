@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HandCricket_controller {
 
     static boolean takeInput =false,gameLoop =false,gameOver=false;
+    static boolean ready=false,interrupt;
     static int input,inMsg;
 
     public ImageView umpire;
@@ -46,9 +47,9 @@ public class HandCricket_controller {
 
     public static void startGame() throws IOException {
         FXMLLoader bowling= new FXMLLoader(HandCricket_controller.class.getResource("HandCricket.fxml"));
-        Scene bowlingScene=new Scene(bowling.load());
+        Scene scene=new Scene(bowling.load());
 
-        bowlingScene.setOnKeyPressed(e->{
+        scene.setOnKeyPressed(e->{
             if(takeInput) {
                 try {
                     int n = Integer.parseInt(e.getText());
@@ -62,52 +63,84 @@ public class HandCricket_controller {
         });
 
         Stage stage=new Stage();
-        stage.setScene(bowlingScene);
+        stage.setScene(scene);
         if(HandCricket_settings.multiPlayer)
-            stage.setOnCloseRequest(e->HandCricket_networking.closeChat());
+            stage.setOnCloseRequest(e->{
+                HandCricket_networking.closeChat();
+                HandCricket.totalRuns=0;
+                HandCricket.runsInOver=0;
+                HandCricket.ballsBowled=0;
+                HandCricket.innings=1;
+                HandCricket.target=0;
+                HandCricket.wickets=0;
+            });
         stage.show();
     }
 
     @FXML
+    public void mainAnimation(){
+        startAnimation();
+        Timeline loop=new Timeline(new KeyFrame(Duration.seconds(1)));
+        loop.setOnFinished(e->{
+            if(interrupt) {
+                startAnimation();
+                interrupt=false;
+            if(!gameOver)
+                loop.play();
+            }
+        });
+        loop.play();
+    }
+    @FXML
     public void setScene(){
-        if(HandCricket.batting){
-            batting.setText("On-strike");
-            foreHand.setLayoutX(321.0);
-            foreHand.setLayoutY(285.0);
-            backHand.setLayoutX(340.0);
-            backHand.setLayoutY(171.0);
-            umpire.setLayoutX(293.0);
-            umpire.setLayoutY(147.0);
-            umpire.setFitHeight(70.0);
-            umpire.setFitWidth(56.0);
-        }
-        else{
-            batting.setText("Bowling");
-            foreHand.setLayoutX(349.0);
-            foreHand.setLayoutY(310.0);
-            backHand.setLayoutX(309.0);
-            backHand.setLayoutY(166.0);
-            umpire.setLayoutX(274.0);
-            umpire.setLayoutY(244.0);
-            umpire.setFitHeight(105.0);
-            umpire.setFitWidth(74.0);
-        }
-        if(HandCricket.innings==1)
-            innings.setText("1st Innings");
-        else
-            innings.setText("Target is "+HandCricket.target);
+        if(!HandCricket_settings.multiPlayer||ready) {
+            if (HandCricket.batting) {
+                batting.setText("On-strike");
+                foreHand.setLayoutX(321.0);
+                foreHand.setLayoutY(285.0);
+                backHand.setLayoutX(340.0);
+                backHand.setLayoutY(171.0);
+                umpire.setLayoutX(293.0);
+                umpire.setLayoutY(147.0);
+                umpire.setFitHeight(70.0);
+                umpire.setFitWidth(56.0);
+            } else {
+                batting.setText("Bowling");
+                foreHand.setLayoutX(349.0);
+                foreHand.setLayoutY(310.0);
+                backHand.setLayoutX(309.0);
+                backHand.setLayoutY(166.0);
+                umpire.setLayoutX(274.0);
+                umpire.setLayoutY(244.0);
+                umpire.setFitHeight(105.0);
+                umpire.setFitWidth(74.0);
+            }
+            if (HandCricket.innings == 1)
+                innings.setText("1st Innings");
+            else
+                innings.setText("Target is " + HandCricket.target);
 
-        umpire.setImage(wait);
-        umpire.setVisible(true);
-        foreHand.setVisible(true);
-        backHand.setVisible(true);
-        mathLabel.setVisible(false);
-        mathInput.setVisible(false);
+            umpire.setImage(wait);
+            umpire.setVisible(true);
+            foreHand.setVisible(true);
+            backHand.setVisible(true);
+            mathLabel.setVisible(false);
+            mathInput.setVisible(false);
+            //mainAnimation();
+        }
     }
 
     @FXML
     protected void startAnimation() {
         gameLoop = !gameLoop;
+        if(HandCricket_settings.multiPlayer)
+        {
+            if(gameLoop)
+                HandCricket_networking.send(-1);
+            else
+                HandCricket_networking.send(-2);
+        }
+
         Image[] numbers={zero,one,two,three,four,five,six};
         KeyValue foreTurn0 = new KeyValue(foreHand.rotateProperty(), 0);
         KeyValue foreTurn1 = new KeyValue(foreHand.rotateProperty(), 23);
@@ -183,7 +216,7 @@ public class HandCricket_controller {
                 inMsg = HandCricket_networking.inMsg;
             }
             else
-                inMsg=3;//(int)(Math.random()*7);
+                inMsg=(int)(Math.random()*7);
 
             if (HandCricket.score(input,inMsg)) {
                 gameLoop=false;
@@ -236,9 +269,9 @@ public class HandCricket_controller {
     void showMath(){
         if(HandCricket.batting || !HandCricket_settings.multiPlayer) {
             if (HandCricket.innings == 1){
-                if(HandCricket_settings.difficulty ==2)
+                if(HandCricket_settings.difficulty ==1)
                     mathLabel.setText("Enter runs scored in this over");
-                if(HandCricket_settings.difficulty ==3)
+                if(HandCricket_settings.difficulty ==2)
                     mathLabel.setText("Enter total runs");
             }
             else
