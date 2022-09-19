@@ -4,8 +4,6 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -74,6 +72,7 @@ public class CowBull_controller {
         playerChance=new Label("Player 1 to play");
         playerChance.setAlignment(Pos.BASELINE_LEFT);
         playerChance.setFont(Font.font("Comic Sans MS",15));
+
         Rectangle showTarget=new Rectangle(5,5);
         showTarget.setOnMouseClicked(e->{
             enterGuesses.setText(CowBull_settings.target);
@@ -83,12 +82,18 @@ public class CowBull_controller {
             else
                 multithread_client.closeChat();
         });
+        Rectangle hearTarget=new Rectangle(5,5);
+        hearTarget.setFill(Color.GREEN);
+        hearTarget.setOnMouseClicked(e->{
+            //play the audio of the target word
+        });
+
         HBox footer=new HBox(3);
         footer.setAlignment(Pos.BASELINE_CENTER);
         if(CowBull_settings.noOfPlayers==1)
-            footer.getChildren().add(showTarget);
+            footer.getChildren().addAll(hearTarget,showTarget);
         else
-            footer.getChildren().addAll(playerChance,showTarget);
+            footer.getChildren().addAll(hearTarget,playerChance,showTarget);
 
         layout.getChildren().addAll(group,multiplayer,footer);
         gameScene=new Scene(layout,CowBull_settings.noOfPlayers*300,420);
@@ -114,8 +119,6 @@ public class CowBull_controller {
         });
     }
     static boolean isValidWord(String guessedWord){
-       /* if(!guessedWord.contains("[A-Z]"))
-            return false;*/
         if(guessedWord.length() != CowBull_settings.wordLength)
             return false;
 
@@ -129,7 +132,8 @@ public class CowBull_controller {
                     return false;
             }
         }
-        return true;
+
+        return  CowBull_dictionary.isWord(guessedWord);
     }
 
     static void getPoints(){
@@ -157,16 +161,8 @@ public class CowBull_controller {
         }
         chance += dir;
         nextTurn();
-        if(chance !=0 && playerNo == 0 && CowBull_settings.multiPC) {
-            /*multiplayer_server.send(chance+"");
-               String inMsg = multiplayer_server.receive().toUpperCase();
-               gameplay(inMsg);*/
-
+        if(chance !=0 && playerNo == 0 && CowBull_settings.multiPC)
             multithread_server.send(String.valueOf(chance));
-        }
-
-        /*chance += dir;
-        nextTurn();*/
     }
     static void nextTurn(){
         if(chance==CowBull_settings.noOfPlayers){

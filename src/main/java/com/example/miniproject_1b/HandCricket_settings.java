@@ -95,15 +95,14 @@ public class HandCricket_settings extends Application {
     }
     @FXML
     void setSinglePC(){
-        CowBull_controller.playerNo=0;
         multiPlayer =false;
         ipAddress.setVisible(false);
         serverIP.setVisible(false);
     }
 
-    static boolean server=true,winner;
+    static boolean server=true;
     static boolean multiPlayer =false;
-    static int difficulty=2;
+    static int difficulty=1;
     static int gameLength=50;
     static int noOfWickets=1;
 

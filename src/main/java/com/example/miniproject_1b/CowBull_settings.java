@@ -1,7 +1,6 @@
 package com.example.miniproject_1b;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -15,7 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 
 public class CowBull_settings extends Application {
 

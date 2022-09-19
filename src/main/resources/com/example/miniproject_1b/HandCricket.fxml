@@ -24,14 +24,14 @@
                 <Image fx:id="out" url="@umpire_out.png" />
             </image>
         </ImageView>
-      <Label fx:id="batting" layoutX="87.0" layoutY="27.0">
+      <Label fx:id="balls_wickets" layoutX="87.0" layoutY="27.0">
          <font>
-            <Font name="Comic Sans MS Bold" size="30.0" />
+            <Font name="Comic Sans MS Bold" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="innings" layoutX="420.0" layoutY="27.0">
+      <Label fx:id="innings" layoutX="385.0" layoutY="27.0">
          <font>
-            <Font name="Comic Sans MS Bold" size="30.0" />
+            <Font name="Comic Sans MS Bold" size="24.0" />
          </font>
       </Label>
       <Label fx:id="mathLabel" alignment="CENTER" layoutY="100.0" text="Enter runs in this over" textAlignment="CENTER" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -54,10 +54,10 @@
               <Image fx:id="zero" url="@0.png" />
           </image>
           <image>
-              <Image fx:id="one"   url="@1.png" />
+              <Image fx:id="one" url="@1.png" />
           </image>
           <image>
-              <Image fx:id="two"   url="@2.png" />
+              <Image fx:id="two" url="@2.png" />
           </image>
           <image>
               <Image fx:id="three" url="@3.png" />
@@ -69,7 +69,7 @@
               <Image fx:id="five" url="@5.png" />
           </image>
           <image>
-              <Image fx:id="six"   url="@6.png" />
+              <Image fx:id="six" url="@6.png" />
           </image>
           <image>
               <Image fx:id="seven" url="@7.png" />
@@ -81,5 +81,19 @@
               <Image fx:id="nine" url="@9.png" />
           </image>
       </ImageView>
+      <HBox alignment="CENTER" layoutY="397.0" prefHeight="63.0" prefWidth="659.0">
+         <children>
+            <Label text="Objective: ">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="objective" text="Have fun learning addition">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>
